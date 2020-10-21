@@ -2,5 +2,8 @@
 	"title": "Evgeny Bushkov",
 	"layout.navbar.violinist": "Violinist",
 	"layout.navbar.conductor": "Conductor",
-	"layout.navbar.teacher": "Music teacher"
+	"layout.navbar.teacher": "Music teacher",
+	"layout.navbar.gallery": "Gallery",
+	"layout.navbar.contacts": "Contacts",
+	"layout.navbar.concerts": "Concerts"
 }

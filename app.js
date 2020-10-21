@@ -1,6 +1,7 @@
 const express=require("express");
 const handlebars=require("express-handlebars");
 const mainRouter=require("./routes/main");
+const db = require("./db");
 
 
 const path=require('path');
@@ -71,7 +72,7 @@ app.listen(PORT, ()=>{
   console.log("Server started");
 })
 // const viewhelpers = require("./viewhelpers");
-// const db = require("./db");
+
 
 const https = require('https');
 const fs = require('fs');

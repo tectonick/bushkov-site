@@ -2,5 +2,8 @@
 	"title": "Евгений Бушков",
 	"layout.navbar.violinist": "Скрипач",
 	"layout.navbar.conductor": "Дирижер",
-	"layout.navbar.teacher": "Педагог"
+	"layout.navbar.teacher": "Педагог",
+	"layout.navbar.concerts": "Афиша",
+	"layout.navbar.gallery": "Галерея",
+	"layout.navbar.contacts": "Контакты"
 }
