@@ -1,0 +1,35 @@
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-light">
+  <a class="navbar-brand" href="/">
+    <img id="logo" class="ml-3" src="/img/logo.png" alt="">
+  </a>
+
+  <button class="navbar-toggler mr-3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse nav-items" id="navbarSupportedContent">
+    <ul class="navbar-nav m-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/violinist">{{__ 'layout.navbar.violinist'}}</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="/conductor">{{__ 'layout.navbar.conductor'}}</a>  
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/teacher">{{__ 'layout.navbar.teacher'}}</a>
+      </li> 
+    </ul>
+    
+    <span class='mx-3 dropdown'>
+        <a class="nav-link dropdown-toggle locale-change" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="/img/icons/language-icon.png" alt="Language">
+        </a>
+        <div class="dropdown-menu dropdown-menu-lang animate slideIn" aria-labelledby="navbarDropdown">
+          <a class='dropdown-item locale-change' href="" id='ru'>Русский</a>
+          <a class='dropdown-item locale-change' href="" id='en'>English</a>          
+        </div>        
+    </span>
+
+  </div>
+</nav>

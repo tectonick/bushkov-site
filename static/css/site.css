@@ -1,0 +1,16 @@
+/*General*/
+
+  
+  
+  a:hover {
+    text-decoration: none;
+  }
+
+  .locale-change:hover,
+.social-img:hover {
+  opacity: 0.8;
+}
+
+.locale-change img{
+  height: 40px;
+}
