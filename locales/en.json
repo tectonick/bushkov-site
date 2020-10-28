@@ -5,5 +5,6 @@
 	"layout.navbar.teacher": "Music teacher",
 	"layout.navbar.gallery": "Gallery",
 	"layout.navbar.contacts": "Contacts",
-	"layout.navbar.concerts": "Concerts"
+	"layout.navbar.concerts": "Concerts",
+	"layout.navbar.language": "layout.navbar.language"
 }

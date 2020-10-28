@@ -3,16 +3,34 @@
   body{
       background-color: #030303;
       color:white;
+      font-family: 'Times New Roman', Times, serif;
   }
   main{
       z-index: 1;
   }
+
+
+.navbar-brand{
+  font-family: 'Gabriola';
+  font-size: xx-large;
+}
+
+.nav-link{
+  color: white !important;
+  font-size: large;
+}
+
+
   #index-wrapper{
-      background-image: url('/img/index-photo.jpg');
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-      
+   width: 100%;
+   position: relative;
+  }
+
+  #index-image{
+    z-index: -1;
+    position: fixed;
+    right: 0;
+    top:5%;
   }
 .wrapper{
     position:fixed;
@@ -31,4 +49,36 @@
 
 .locale-change img{
   height: 40px;
+}
+
+
+
+.index-block{
+  width: 40%;
+  margin: 5%;
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+}
+.index-block h1{
+  font-size: 5rem;
+}
+
+.index-block .buttons{
+  display: flex;
+  font-size: 1.5rem;
+
+}
+
+.button-main:hover{
+  background-color: rgba(255,255,255,0.3);
+  color: white;
+}
+.button-main{
+  transition: background-color 0.3s;
+  cursor: pointer;
+  padding: 10px 25px;
+  border-radius: 5px;
+  border: 1px solid white;
+  color: white;
 }
