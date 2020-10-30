@@ -1,12 +1,15 @@
 /*General*/
 
+
   body{
       background-color: #030303;
       color:white;
       font-family: 'Times New Roman', Times, serif;
+
   }
   main{
       z-index: 1;
+
   }
 
 
@@ -20,13 +23,23 @@
   font-size: large;
 }
 
+.menu-item.active{
+  box-sizing: border-box;
+  border-top: 4px solid white;
+  transition: border-top 0.3s;
+}
+
+
+.dropdown-menu{
+  min-width: 1em;
+}
 
   #index-wrapper{
    width: 100%;
    position: relative;
   }
 
-  #index-image{
+  #index-image, #bushkov-conductor, #bushkov-violinist{
     z-index: -1;
     position: fixed;
     right: 0;
@@ -55,18 +68,18 @@
 
 .index-block{
   width: 40%;
-  margin: 5%;
+  margin: 6% 5%;
   display: flex;
   flex-direction: column;
-  font-size: 2rem;
+  font-size: 1.7vw;
 }
 .index-block h1{
-  font-size: 5rem;
+  font-size: 3em;
 }
 
 .index-block .buttons{
   display: flex;
-  font-size: 1.5rem;
+  font-size: 1.3em;
 
 }
 

@@ -5,10 +5,20 @@ document.getElementById("ru").onclick = () => {
   document.cookie = "locale=ru; expires=Thu, 18 Dec 2999 12:00:00 UTC; path=/";
 };
 
+
+const activeClass = 'active';  
 barba.init({
+  debug: true,
+   logLevel: 'debug',
   transitions: [
     {
       name: "opacity-transition",
+      once(data) {
+    
+          $(`.menu-item > a[href$="${ data.next.url.path }"]`).closest('.menu-item').each( function() {
+            $(this).addClass(activeClass);
+          });
+      },
       leave(data) {
         
         return gsap.to(data.current.container, {
@@ -28,4 +38,18 @@ barba.init({
       },
     },
   ],
+});
+
+
+barba.hooks.afterLeave(data => {
+  // Update the active menu item classes
+  console.log("afterLeave");
+  if ( data.next.url.path ) {
+    $( '.menu-item.' + activeClass ).each( function() {
+      $(this).removeClass(activeClass);
+    });
+    $(`.menu-item > a[href$="${ data.next.url.path }"]`).closest('.menu-item').each( function() {
+      $(this).addClass(activeClass);
+    });
+  }
 });

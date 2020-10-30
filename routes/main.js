@@ -29,6 +29,11 @@ router.get("/gallery", (req, res) => {
     res.render('gallery.hbs', {title});
 });
 
+router.get("/concerts", (req, res) => {
+    var title =res.__('layout.navbar.concerts')+' | '+res.__('title');
+    res.render('concerts.hbs', {title});
+});
+
 router.get("/contacts", (req, res) => {
     var title =res.__('layout.navbar.contacts')+' | '+res.__('title');
     res.render('contacts.hbs', {title});
