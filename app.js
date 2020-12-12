@@ -1,6 +1,7 @@
 const express=require("express");
 const handlebars=require("express-handlebars");
 const mainRouter=require("./routes/main");
+const adminRouter=require("./routes/admin");
 const db = require("./db");
 
 
@@ -67,6 +68,7 @@ app.use(fileUpload());
 
 app.use(express.static(path.join(__dirname, "static")));
 app.use(mainRouter);
+app.use('/admin',adminRouter);
 
 app.listen(PORT, ()=>{
   console.log("Server started");

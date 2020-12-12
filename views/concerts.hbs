@@ -1,1 +1,13 @@
-<h1>Concerts</h1>
+<div id="concerts">
+
+    {{#each concerts}}
+        <div class="concert-container">
+            <em>{{this.date}}</em>
+            <h3>{{this.title}}</h3>
+            <p>{{this.description}}</p>
+            <em>{{this.place}}</em>
+        </div>
+    {{/each}}
+
+
+</div>
