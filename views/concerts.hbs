@@ -2,10 +2,15 @@
 
     {{#each concerts}}
         <div class="concert-container">
-            <em>{{this.date}}</em>
-            <h3>{{this.title}}</h3>
-            <p>{{this.description}}</p>
-            <em>{{this.place}}</em>
+            <img src="{{this.imagesrc}}" alt="">
+            <div class="text">
+                
+                <h3>{{this.title}}</h3>
+                {{!-- <p>{{this.description}}</p> --}}
+                <em class="date">{{this.date}}</em>
+                <em class="place">{{this.place}}</em>
+            </div>
+
         </div>
     {{/each}}
 

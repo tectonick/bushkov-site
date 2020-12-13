@@ -6,6 +6,16 @@ const db=require('../db');
 const router = express.Router();
 
 
+
+function DateToISOLocal(date){
+    // JS interprets db date as local and converts to UTC
+    var localDate = date - date.getTimezoneOffset() * 60 * 1000;
+    return new Date(localDate).toISOString().slice(0, 19);  
+  }
+
+
+
+
 router.get("/", (req, res) => {
     var title =res.__('title');
     res.render('index.hbs', {title});
@@ -47,8 +57,13 @@ router.get("/concerts", (req, res) => {
     db.query('SELECT * FROM concerts WHERE hidden=FALSE AND date>=NOW() ORDER BY date',
     function (err, concerts) {
         if (err) console.log(err);
+        
+        concerts.forEach((concert)=>{
+            concert.imagesrc=path.join('/img/concerts/',concert.id+'.jpg');
+            //concert.date=concert.date.toString().slice(0,21);
+            concert.date= DateToISOLocal(concert.date).replace('T'," ").slice(0, 16);           
+        })
         console.log(concerts);
-
         res.render('concerts.hbs', {title, concerts});
     });
 

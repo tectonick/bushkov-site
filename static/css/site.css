@@ -67,12 +67,16 @@
 
 
 
-.text-block{
+.text-block, .contacts-block{
   width: 40%;
   margin: 3% 3%;
   display: flex;
   flex-direction: column;
   font-size: 1.4vw;
+}
+
+.contacts-block{
+  margin: 10% 5%;
 }
 
 .index-block{
@@ -115,9 +119,21 @@
 
 .img-container{
 	width: 100%;
+  transition: transform 0.3s;
+  border-radius: 5px;
+  border: 1px solid white;
+  color: white;
+}
+
+.img-wrapper{
   padding: 10px;
+}
+
+.img-container:hover{
+  transform: scale(1.05,1.05);
 
 }
+
 .img-container img{
   width: 100%;
 }
@@ -128,5 +144,52 @@
 }
 
 .concert-container{
-  padding: 10px;
+  background-color: rgba(255,255,255,0.1);
+  margin: 10px;
+  border-radius: 5px;
+  border: 1px solid white;
+  color: white;
+  position: relative;
+  width: 15%;
+  transition: transform 0.3s;
+}
+.concert-container:hover{
+  transform: scale(1.05,1.05);
+
+}
+
+
+.concert-container .text{
+  padding: 0px;
+}
+.concert-container .text *{
+  padding: 0px 5px;
+}
+.concert-container img{
+  width: 100%;
+  display: block;
+}
+.concert-container h3{
+  background-color: rgba(255,255,255,0.2);
+}
+
+.concert-container .date{
+  float: left;
+}
+.concert-container .place{
+  float: right;
+}
+
+
+
+
+.poster {
+  max-width: 100%;
+}
+.event-row {
+  margin-bottom: 3.5vw;
+}
+.event-row .concert{
+  border-radius: 5px;
+  border: 1px solid white;
 }
