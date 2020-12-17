@@ -63,7 +63,6 @@ router.get("/concerts", (req, res) => {
             //concert.date=concert.date.toString().slice(0,21);
             concert.date= DateToISOLocal(concert.date).replace('T'," ").slice(0, 16);           
         })
-        console.log(concerts);
         res.render('concerts.hbs', {title, concerts});
     });
 

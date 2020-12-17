@@ -1,6 +1,20 @@
 /*General*/
 
+::-webkit-scrollbar {
+  width: 7px;
+}
 
+::-webkit-scrollbar-track {
+  background: black;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
   body{
       background-color: #030303;
       color:white;
@@ -12,6 +26,10 @@
 
   }
 
+nav{
+  background-color: rgba(0,0,0,1);
+
+}
 
 .navbar-brand{
   font-family: 'Gabriola';
@@ -39,11 +57,11 @@
    position: relative;
   }
 
-  #index-image, #bushkov-conductor, #bushkov-violinist,#bushkov-teacher{
+  .main-img{
     z-index: -1;
     position: fixed;
     right: 0;
-    top:5%;
+    top:8%;
   }
 .wrapper{
     position:fixed;
@@ -68,20 +86,20 @@
 
 
 .text-block, .contacts-block{
-  width: 40%;
-  margin: 3% 3%;
+  width: 45%;
+  margin: 1% 2%;
   display: flex;
   flex-direction: column;
   font-size: 1.4vw;
 }
 
 .contacts-block{
-  margin: 10% 5%;
+  margin: 10% 3%;
 }
 
 .index-block{
   width: 40%;
-  margin: 6% 5%;
+  margin: 5% 4%;
   display: flex;
   flex-direction: column;
   font-size: 1.7vw;
@@ -141,6 +159,7 @@
 
 #concerts{
   display: flex;
+  flex-wrap: wrap;
 }
 
 .concert-container{
@@ -150,7 +169,7 @@
   border: 1px solid white;
   color: white;
   position: relative;
-  width: 15%;
+  width: 18%;
   transition: transform 0.3s;
 }
 .concert-container:hover{
@@ -192,4 +211,47 @@
 .event-row .concert{
   border-radius: 5px;
   border: 1px solid white;
+}
+
+pre{
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+  white-space: pre-wrap;  
+  word-wrap: break-word;
+  overflow: hidden;
+  line-break: normal;
+  overflow-wrap: break-word;
+}
+
+
+@media (max-width:768px){
+  .main-img{
+    display: block;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .index-block{
+    width: 96%;
+    font-size: 1rem;
+    margin: 0 2%;
+  }
+  .text-block{
+    width: 96%;
+    margin: 1% 2%;
+    font-size: 1rem;
+  }
+  .contacts-block{
+    width: 96%;
+    margin: 1% 2%;
+    font-size: 1rem;
+  }
+  #gallery {
+    columns: 2;
+  }
+
+  .concert-container{
+    width: 45%;
+  }
 }
