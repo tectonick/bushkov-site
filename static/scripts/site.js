@@ -33,6 +33,7 @@ barba.init({
       },
       enter(data) {
         let video=document.getElementById("video1");
+        window.scrollTo(0,0);
         if (video) {
           video.play();
         }
