@@ -32,9 +32,14 @@ barba.init({
         })
       },
       enter(data) {
+        let video=document.getElementById("video1");
+        if (video) {
+          video.play();
+        }
         return gsap.from(data.next.container, {
           opacity: 0,
         });
+        
       },
     },
   ],
