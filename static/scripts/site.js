@@ -34,6 +34,10 @@ barba.init({
       enter(data) {
         let video=document.getElementById("video1");
         window.scrollTo(0,0);
+        window.document.dispatchEvent(new Event("DOMContentLoaded", {
+          bubbles: true,
+          cancelable: true
+        }));
         if (video) {
           video.play();
         }

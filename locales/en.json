@@ -6,5 +6,7 @@
 	"layout.navbar.gallery": "Gallery",
 	"layout.navbar.contacts": "Contacts",
 	"layout.navbar.concerts": "Concerts",
-	"layout.navbar.language": "Language"
+	"layout.navbar.language": "Language",
+	"layout.navbar.video": "Video",
+	"video.more": "More video on youtube channel"
 }

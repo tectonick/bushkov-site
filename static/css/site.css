@@ -19,6 +19,7 @@
       background-color: #030303;
       color:white;
       font-family: 'Times New Roman', Times, serif;
+      font-family: 'Gabriola', Times, serif;
 
   }
   main{
@@ -38,7 +39,7 @@ nav{
 
 .nav-link{
   color: white !important;
-  font-size: large;
+  font-size: 1.5rem;
 }
 
 .menu-item.active{
@@ -145,6 +146,7 @@ nav{
 
 .img-wrapper{
   padding: 10px;
+  break-inside: avoid-column;
 }
 
 .img-container:hover{

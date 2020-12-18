@@ -6,5 +6,7 @@
 	"layout.navbar.concerts": "Афиша",
 	"layout.navbar.gallery": "Галерея",
 	"layout.navbar.contacts": "Контакты",
-	"layout.navbar.language": "Язык"
+	"layout.navbar.language": "Язык",
+	"layout.navbar.video": "Видео",
+	"video.more": "Больше видео на youtube-канале"
 }

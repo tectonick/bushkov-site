@@ -74,6 +74,10 @@ router.get("/contacts", (req, res) => {
     res.render('contacts.hbs', {title});
 });
 
+router.get("/video", (req, res) => {
+    var title =res.__('layout.navbar.video')+' | '+res.__('title');
+    res.render('video.hbs', {title});
+});
 
 
 
