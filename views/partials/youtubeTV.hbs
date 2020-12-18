@@ -20,15 +20,18 @@
 
 
     <script>
-
-        document.addEventListener("DOMContentLoaded", function (event) {
-            var controller = new YTV('YourPlayerID', {
-                playlist: 'PLT48bKCGz_hFkLhewv5bwVpeZjmHIfflz',
-                responsive: true,
-                accent: '#fff',
-                browsePlaylists: true,
-                seeMore: '{{__ 'video.more'}}'
-            });
+        document.addEventListener('Ready',(event)=>{
+            console.log('Ready called');
+          var controller = new YTV('YourPlayerID', {
+            playlist: 'PLT48bKCGz_hFkLhewv5bwVpeZjmHIfflz',
+            responsive: true,
+            accent: '#fff',
+            browsePlaylists: true,
+            seeMore: ''
         });
+        })
+
+
+
     </script>
 </div>
