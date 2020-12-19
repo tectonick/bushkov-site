@@ -38,7 +38,7 @@
           reverseList: false,
           shuffleList: false,
           wmode: "opaque",
-          seeMore:''
+          seeMore:'Youtube'
           ,
           events: {
             videoReady: () => {
@@ -506,7 +506,7 @@
                 list += '<img src="' + user.thumb + '">';
                 list +=
                   "<span>" +
-                  (settings.seeMore)+
+                  (settings.seeMore)+'Youtube'+
                   "</span>"; // was list += '<span>'+(user.title)+'</span>'
                 list += "</a>";
                 list += "</div>";

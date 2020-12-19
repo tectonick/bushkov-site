@@ -8,5 +8,6 @@
 	"layout.navbar.contacts": "Контакты",
 	"layout.navbar.language": "Язык",
 	"layout.navbar.video": "Видео",
-	"video.more": "Больше видео на youtube-канале"
+	"video.more": "Больше видео на youtube-канале",
+	"layout.video.more": "layout.video.more"
 }
