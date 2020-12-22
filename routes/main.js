@@ -18,23 +18,23 @@ function DateToISOLocal(date){
 
 router.get("/", (req, res) => {
     var title =res.__('title');
-    res.render('index.hbs', {title});
+    res.render('index.hbs', {title,signedIn:req.signedIn});
 });
 
 router.get("/violinist", (req, res) => {
     var title =res.__('layout.navbar.violinist')+' | '+res.__('title');
-    res.render('violinist.hbs', {title});
+    res.render('violinist.hbs', {title,signedIn:req.signedIn});
 });
 
 router.get("/conductor", (req, res) => {
     var title =res.__('layout.navbar.conductor')+' | '+res.__('title');
-    res.render('conductor.hbs', {title});
+    res.render('conductor.hbs', {title,signedIn:req.signedIn});
 });
 
 
 router.get("/teacher", (req, res) => {
     var title =res.__('layout.navbar.teacher')+' | '+res.__('title');
-    res.render('teacher.hbs', {title});
+    res.render('teacher.hbs', {title,signedIn:req.signedIn});
 });
 
 router.get("/gallery", (req, res) => {
@@ -49,7 +49,7 @@ router.get("/gallery", (req, res) => {
         
     });
     
-    res.render('gallery.hbs', {title, images});
+    res.render('gallery.hbs', {title, images,signedIn:req.signedIn});
 });
 
 router.get("/concerts", (req, res) => {
@@ -63,7 +63,7 @@ router.get("/concerts", (req, res) => {
             //concert.date=concert.date.toString().slice(0,21);
             concert.date= DateToISOLocal(concert.date).replace('T'," ").slice(0, 16);           
         })
-        res.render('concerts.hbs', {title, concerts});
+        res.render('concerts.hbs', {title, concerts,signedIn:req.signedIn});
     });
 
     
@@ -71,12 +71,12 @@ router.get("/concerts", (req, res) => {
 
 router.get("/contacts", (req, res) => {
     var title =res.__('layout.navbar.contacts')+' | '+res.__('title');
-    res.render('contacts.hbs', {title});
+    res.render('contacts.hbs', {title,signedIn:req.signedIn});
 });
 
 router.get("/video", (req, res) => {
     var title =res.__('layout.navbar.video')+' | '+res.__('title');
-    res.render('video.hbs', {title});
+    res.render('video.hbs', {title,signedIn:req.signedIn});
 });
 
 

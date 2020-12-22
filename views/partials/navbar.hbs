@@ -1,11 +1,12 @@
-
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
 
-<a class="navbar-brand" href="/">Evgeny Bushkov</a>
+  <a class="navbar-brand" href="/">Evgeny Bushkov</a>
 
 
 
-  <button class="navbar-toggler navbar-toggler-right mr-3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler navbar-toggler-right mr-3" type="button" data-toggle="collapse"
+    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+    aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -16,44 +17,67 @@
 
 
     <ul class="navbar-nav ml-auto">
+{{#if signedIn}}
+      <li>
+        <span class='dropdown float-left '>
+          <a class="nav-link dropdown-toggle locale-change" href="#" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Управление сайтом
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-lang animate slideIn"
+            aria-labelledby="navbarDropdown">
+            <a class='dropdown-item' href="/admin/concerts">Концерты</a>
+            <a class='dropdown-item' href="/admin/gallery">Галерея</a>
+            <a class='dropdown-item' data-barba-prevent="self" href="/logout">Выход</a>
+          </div>
+        </span>
+      </li>
+{{/if}}
+
+
+
+
       <li class="nav-item menu-item">
         <a class="nav-link" href="/violinist">{{__ 'layout.navbar.violinist'}}</a>
-      </li> 
+      </li>
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/conductor">{{__ 'layout.navbar.conductor'}}</a>  
+        <a class="nav-link" href="/conductor">{{__ 'layout.navbar.conductor'}}</a>
       </li>
       <li class="nav-item menu-item">
         <a class="nav-link" href="/teacher">{{__ 'layout.navbar.teacher'}}</a>
-      </li> 
+      </li>
       <li class="nav-item menu-item">
         <a class="nav-link" href="/concerts">{{__ 'layout.navbar.concerts'}}</a>
-      </li> 
+      </li>
       <li class="nav-item menu-item">
         <a class="nav-link" href="/gallery">{{__ 'layout.navbar.gallery'}}</a>
-      </li> 
+      </li>
       <li class="nav-item menu-item">
         <a class="nav-link" href="/video">{{__ 'layout.navbar.video'}}</a>
-      </li> 
+      </li>
       <li class="nav-item menu-item">
         <a class="nav-link" href="/contacts">{{__ 'layout.navbar.contacts'}}</a>
-      </li> 
+      </li>
 
       <li>
         <span class='dropdown float-left '>
-        <a class="nav-link dropdown-toggle locale-change" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{__ 'layout.navbar.language'}}
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lang animate slideIn" aria-labelledby="navbarDropdown">
-          <a class='dropdown-item locale-change' href="" id='ru'>Русский</a>
-          <a class='dropdown-item locale-change' href="" id='en'>English</a>          
-        </div>        
-  </span>
-
+          <a class="nav-link dropdown-toggle locale-change" href="#" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{__ 'layout.navbar.language'}}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-lang animate slideIn"
+            aria-labelledby="navbarDropdown">
+            <a class='dropdown-item locale-change' href="" id='ru'>Русский</a>
+            <a class='dropdown-item locale-change' href="" id='en'>English</a>
+          </div>
+        </span>
       </li>
-      
+
+
+
     </ul>
-    
-    
+
+
 
   </div>
 </nav>

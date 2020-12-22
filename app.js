@@ -11,6 +11,10 @@ const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const i18n = require('i18n');
 
+const bodyParser = require("body-parser");
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const bcrypt = require('bcrypt');
+const uuidV4 = require("uuid.v4");
 
 i18n.configure({
   // setup some locales - other locales default to en silently
@@ -61,7 +65,11 @@ app.use(function(req,res,next){
   }
   next();
 });
-
+app.use(function (req, res, next) {
+  let signed=req.cookies.id === sessionId;
+  req.signedIn=signed;
+  next();
+});
 app.use(session({secret: 'ssshhhhh'}));
 
 app.use(fileUpload());
@@ -69,6 +77,34 @@ app.use(fileUpload());
 app.use(express.static(path.join(__dirname, "static")));
 app.use(mainRouter);
 app.use('/admin',adminRouter);
+
+
+
+
+const admin = {
+  user: "root",
+  passhash: "$2b$12$8/U31eNNYwPxhTMdcC4ogeIttkJNHUUreKGUEuZHFoPD.TT.e//9u"
+}
+var sessionId = 'none';
+app.get("/login", (req, res) => {  
+  var title ='Login'+' | '+res.__('title');
+  res.render("login", {title,signedIn:req.signedIn});
+});
+app.post("/login", urlencodedParser, (req, res) => {
+  if ((req.body.username === admin.user) && (bcrypt.compareSync(req.body.password, admin.passhash))) {
+    sessionId = uuidV4();
+    res.cookie("id", sessionId, { maxAge: 24 * 60 * 60 * 10000 });
+    res.redirect("/");
+  } else {
+    res.redirect("/login");
+  }
+});
+app.get('/logout', function (req, res) {
+  res.clearCookie('id');
+  res.redirect("/");
+});
+
+
 
 app.listen(PORT, ()=>{
   console.log("Server started");
@@ -84,3 +120,5 @@ let sslOptions = {
    cert: fs.readFileSync('cert.pem')
 };
 let serverHttps = https.createServer(sslOptions, app).listen(8002);
+
+

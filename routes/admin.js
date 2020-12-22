@@ -2,22 +2,30 @@ const express = require("express");
 const fs=require('fs').promises;
 const path=require("path");
 const db=require('../db');
-const bcrypt = require('bcrypt');
+
 const bodyParser = require("body-parser");
-const uuidV4 = require("uuid.v4");
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const imageProcessor = require("../image-processing");
 
 const router = express.Router();
 
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
-const admin = {
-    user: "root",
-    passhash: "$2b$12$8/U31eNNYwPxhTMdcC4ogeIttkJNHUUreKGUEuZHFoPD.TT.e//9u"
-  }
+async function NamesOfDirFilesWOExtension(basepath){
+  var names=[];
+  var realpath=path.join(__dirname,'../', basepath);
+  
+  var files = await fs.readdir(realpath);
+    files.forEach(file => {
+      names.push(path.basename(file, ".jpg"));                 
+    });
+ 
+    
+  return names;
+}
 
-  var sessionId = 'none';
+
+
 
 //Helpers
 async function DeleteImageById(nameId, folder){
@@ -85,18 +93,19 @@ function FilesToArray(files){
 
   //Middleware
 
-router.use(function (req, res, next) {
-    if ((req.cookies.id === sessionId) || (req.path == "/login") || (req.path == "/logout")) {
+
+  router.use(function (req, res, next) {
+    if (req.signedIn){
       next();
     } else {
-      res.redirect("/admin/login");
+      res.redirect('/login');
     }
   });
-
+  
 
 //Routes
 router.get('/', function (req, res) {
-  res.redirect("admin/concerts");
+  res.redirect("admin/login");
 });
 
 router.get('/concerts', function (req, res) {
@@ -111,32 +120,13 @@ router.get('/concerts', function (req, res) {
             //concert.date=concert.date.toString().slice(0,21);
             concert.date= DateToISOLocal(concert.date); 
         })
-        console.log(concerts);
-        res.render("admin/concerts", { title, concerts});
+        res.render("admin/concerts", { title, concerts,signedIn:req.signedIn});
     });
 
 
   });
   
-  router.get("/login", (req, res) => {  
-    var title ='Login'+' | '+res.__('title');
-    res.render("admin/login", {title});
-  });
-  
-  router.post("/login", urlencodedParser, (req, res) => {
-    if ((req.body.username === admin.user) && (bcrypt.compareSync(req.body.password, admin.passhash))) {
-      sessionId = uuidV4();
-      res.cookie("id", sessionId, { maxAge: 24 * 60 * 60 * 10000 });
-      res.redirect("/admin");
-    } else {
-      res.redirect("/admin/login");
-    }
-  });
-  
-  router.get('/logout', function (req, res) {
-    res.clearCookie('id');
-    res.redirect("/");
-  });
+
 
 
 
@@ -147,7 +137,7 @@ router.post("/concerts/delete", urlencodedParser, (req, res) => {
     function (err, results) {
       if (err) console.log(err);
       DeleteImageById(req.body.id, '/static/img/concerts/').then(()=>{
-        res.render('admin/admin');
+        res.render('admin/concerts', {signedIn:req.signedIn});
       });      
     });
 });
@@ -185,6 +175,52 @@ router.post("/concerts/posterupload", urlencodedParser, async (req, res) => {
   await PosterUpload(req.files.fileToUpload, '/static/img/concerts/', req.body.id, imageProcessor.posterImage);
   res.redirect('/admin/concerts'); 
 });
+
+
+
+
+
+
+
+
+
+
+router.get("/gallery", async (req, res) => {
+  var title =res.__('layout.navbar.gallery')+' | '+res.__('title');
+  let images=[];
+  fs.readdir(path.join(__dirname,"../static/img/gallery")).then((entries)=>{
+      entries.forEach((img)=>{
+          let name=path.parse(img).name;
+          let src=path.join('/img/gallery/',img);
+          images.push({name, src});
+      });
+      
+  });
+  res.render('admin/gallery.hbs', { images, signedIn:req.signedIn});
+});
+
+router.post("/gallery/delete", urlencodedParser, (req, res) => {
+  fs.unlink(path.join(__dirname, '../', '/static/', req.body.filename));
+  fs.unlink(path.join(__dirname, '../', '/static/img/thumbnails/gallery/', req.body.filename));
+});
+
+router.post("/gallery/upload", urlencodedParser, (req, res) => {
+  if (!req.files) {return res.status(400);}
+  var files = FilesToArray(req.files);
+  files.forEach((fileToUpload) => {
+    let tmpfile = path.join(__dirname, '..', '/tmp/', fileToUpload.name);
+    fileToUpload.mv(tmpfile, function (err) {
+      imageProcessor.galleryImage(tmpfile).then(()=>{
+        let name = path.basename(tmpfile, path.extname(tmpfile));
+        return SaveTmpPoster(tmpfile, '/static/img/gallery/', name, '/static/img/thumbnails/gallery/');
+      });
+    });
+  });    
+  res.redirect('/admin/gallery');
+});
+
+
+
 
 
 

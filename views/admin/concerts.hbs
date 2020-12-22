@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
 
 
     <div class="ml-auto my-3">
@@ -7,10 +7,12 @@
         </form>
 
     </div>
-    {{#each concerts}}
-    <div concertId="{{this.id}}" class="row searchable event-row">
-        <div class="concert  col-xl-8 col-md-10 offset-xl-2 offset-md-1 col-10 offset-1">
-            <div class="row">
+    <div id='admin-concerts' class='row'>
+
+
+        {{#each concerts}}
+        <div concertId="{{this.id}}" class="searchable event-row col-xl-5 col-md-6 col-11 m-3">
+            <div class="concert row">
                 <div class="col-12 col-md-4 p-0">
                     <img class="poster" loading=lazy src="{{this.imagesrc}}" alt="">
                     <form class="form-group" action="/admin/concerts/posterupload" method="post"
@@ -24,14 +26,17 @@
 
                     <form class='form-group' action="/admin/concerts/edit" id="edit-form-{{this.id}}" method="POST">
                         <input type="hidden" name="id" value="{{this.id}}">
-                        <textarea name="title" class="form-control w-100" placeholder="Название" rows="1">{{this.title}}</textarea>
+                        <textarea name="title" class="form-control w-100" placeholder="Название"
+                            rows="1">{{this.title}}</textarea>
                         <textarea name="description" placeholder="Описание" class="form-control w-100"
                             rows="10">{{this.description}}</textarea>
                         {{!-- <textarea name="date" class="form-control w-100" rows="1">{{this.date}}</textarea> --}}
-                        <input type="datetime-local" class="form-control" name="date"  value="{{this.date}}">
-                        <textarea name="place" class="form-control w-100" placeholder="Зал" rows="1">{{this.place}}</textarea>
+                        <input type="datetime-local" class="form-control" name="date" value="{{this.date}}">
+                        <textarea name="place" class="form-control w-100" placeholder="Зал"
+                            rows="1">{{this.place}}</textarea>
                         <div class="form-check">
-                            <input type="checkbox" name="hidden" value='1'  id="hidden" {{#if this.hidden}} checked{{else}}{{/if}}>
+                            <input type="checkbox" name="hidden" value='1' id="hidden" {{#if this.hidden}}
+                                checked{{else}}{{/if}}>
                             <label class="form-check-label">Скрыть концерт из афиши</label>
                         </div>
                     </form>
@@ -49,12 +54,10 @@
 
                 </div>
             </div>
+
         </div>
-
-
+        {{/each}}
     </div>
-    {{/each}}
-
 
 
 
@@ -96,52 +99,5 @@
 
 
 
-    $(document).ready(function () {
-        $(".delete-button").click(function () {
-            //$(this).parent().parent().parent().css('display', 'none');
-            //$.post("/admin/concerts/delete", { id: $(this).attr('name') });
-            var modal = $('#deleteModal');
-            modal.attr('name', $(this).attr('name'));
-            modal.modal();
-        });
 
-        $("#modal-delete").click(function () {
-            let modal = $('#deleteModal');
-            let idToDelete = modal.attr('name');
-            console.log(idToDelete);
-            $(`[concertId=${idToDelete}]`).css('display', 'none');
-            $.post("/admin/concerts/delete", { id: idToDelete });
-            modal.modal('hide');
-
-        });
-
-        $(".fileToUpload").change(function () {
-      if ($(this).val().length>0){
-            $(this).siblings('.form-control').prop('disabled', false);
-
-      }
-        });
-
-        $(".save-button").click(function (ev) {
-            var target=ev.target;
-            target.setAttribute('disabled','disabled');
-            var formName = $(this).attr('name');
-            var formData = $('#' + formName).serialize();
-            $.post("/admin/concerts/edit", formData, (data, status) => {
-                                target.removeAttribute('disabled');
-                var oldColor = $(this).css('backgroundColor');
-                $(this).animate({ backgroundColor: '#32CD32' }, 1000, function () {
-                    $(this).animate({ backgroundColor: oldColor });
-                });
-            }).fail(() => {
-                target.removeAttribute('disabled');
-                var oldColor = $(this).css('backgroundColor');
-                $(this).animate({ backgroundColor: '#8B0000' }, 1000, function () {
-                    $(this).animate({ backgroundColor: oldColor });
-                });
-            });
-
-        });
-    });
-    
 </script>
