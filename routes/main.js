@@ -13,7 +13,9 @@ function DateToISOLocal(date){
     return new Date(localDate).toISOString().slice(0, 19);  
   }
 
-
+  async function getLocalizedHtml(localeName, filename){
+    return await fs.readFile(path.join(__dirname,'..',`/locales/html/${localeName}/${filename}`));
+}
 
 
 router.get("/", (req, res) => {
@@ -21,20 +23,25 @@ router.get("/", (req, res) => {
     res.render('index.hbs', {title,signedIn:req.signedIn});
 });
 
-router.get("/violinist", (req, res) => {
+
+
+router.get("/violinist", async (req, res) => {
     var title =res.__('layout.navbar.violinist')+' | '+res.__('title');
-    res.render('violinist.hbs', {title,signedIn:req.signedIn});
+    let localizedText= await getLocalizedHtml(req.locale, 'violinist.html');
+    res.render('violinist.hbs', {title,signedIn:req.signedIn,localizedText});
 });
 
-router.get("/conductor", (req, res) => {
+router.get("/conductor", async (req, res) => {
     var title =res.__('layout.navbar.conductor')+' | '+res.__('title');
-    res.render('conductor.hbs', {title,signedIn:req.signedIn});
+    let localizedText= await getLocalizedHtml(req.locale, 'conductor.html');
+    res.render('conductor.hbs', {title,signedIn:req.signedIn,localizedText});
 });
 
 
-router.get("/teacher", (req, res) => {
+router.get("/teacher", async (req, res) => {
     var title =res.__('layout.navbar.teacher')+' | '+res.__('title');
-    res.render('teacher.hbs', {title,signedIn:req.signedIn});
+    let localizedText= await getLocalizedHtml(req.locale, 'teacher.html');
+    res.render('teacher.hbs', {title,signedIn:req.signedIn,localizedText});
 });
 
 router.get("/gallery", (req, res) => {

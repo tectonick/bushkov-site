@@ -10,5 +10,19 @@
 	"layout.navbar.video": "Video",
 	"video.more": "More video on youtube channel",
 	"video.mores": "video.mores",
-	"photo.title": "photo.title"
+	"photo.title": "Gallery",
+	"index.promo": "'Evgeny Bushkov is distinguished by sincerity, musicality, perfect sense of form ... in a word, everything that is inherent in a true master. It is very important for me and for my fellow composers that he is extremely thorough, professional and friendly to new compositions, while possessing a brilliant conducting technique ... '- Efrem Podgaits",
+	"index.more": "Learn more",
+	"index.contacts": "Contacts",
+	"index.name": "Evgeny Bushkov",
+	"bio.contacts": "Contacts",
+	"bio.next": "Next",
+	"conductor.title": "Conductor",
+	"violinist.title": "Violinist",
+	"teacher.title": "Teacher",
+	"contacts.title": "Contacts",
+	"contacts.text": "Text",
+	"contacts.phone": "Phone",
+	"contacts.mail": "Mail",
+	"contacts.facebook": "Facebook"
 }

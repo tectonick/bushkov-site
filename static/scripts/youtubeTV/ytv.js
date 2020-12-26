@@ -506,7 +506,7 @@
                 list += '<img src="' + user.thumb + '">';
                 list +=
                   "<span>" +
-                  (settings.seeMore)+'Youtube'+
+                  (settings.seeMore)+
                   "</span>"; // was list += '<span>'+(user.title)+'</span>'
                 list += "</a>";
                 list += "</div>";
