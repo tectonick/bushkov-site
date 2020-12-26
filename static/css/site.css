@@ -17,6 +17,9 @@
 }
   body{
       background-color: #030303;
+      /* background-image: url('/img/background.jpg');
+      background-attachment: fixed;
+      background-size: contain; */
       color:white;
       font-family: 'Times New Roman', Times, serif;
       font-family: 'Gabriola', Times, serif;
