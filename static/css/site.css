@@ -107,10 +107,10 @@ nav{
 
 .index-block{
   width: 42%;
-  margin: 5% 4%;
+  margin: 4% 4%;
   display: flex;
   flex-direction: column;
-  font-size: 2rem;
+  font-size: 1.9rem;
 }
 .index-block h1{
   font-size: 3em;
