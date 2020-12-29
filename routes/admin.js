@@ -2,29 +2,10 @@ const express = require("express");
 const fs=require('fs').promises;
 const path=require("path");
 const db=require('../db');
-
 const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const imageProcessor = require("../image-processing");
-
 const router = express.Router();
-
-
-
-async function NamesOfDirFilesWOExtension(basepath){
-  var names=[];
-  var realpath=path.join(__dirname,'../', basepath);
-  
-  var files = await fs.readdir(realpath);
-    files.forEach(file => {
-      names.push(path.basename(file, ".jpg"));                 
-    });
- 
-    
-  return names;
-}
-
-
 
 
 //Helpers
@@ -68,8 +49,6 @@ async function SaveTmpPoster(tmpfile, dstFolder, newId, thumbnailFolder){
   });
 }
 
-
-
 async function PosterUpload(fileToUpload, folder, id, imageProcessorFunction){
   let tmpfile = path.join(__dirname, '..', '/tmp/', fileToUpload.name);
   await fileToUpload.mv(tmpfile);
@@ -88,12 +67,7 @@ function FilesToArray(files){
 }
 
 
-
-
-
-  //Middleware
-
-
+//Middleware
   router.use(function (req, res, next) {
     if (req.signedIn){
       next();
@@ -117,7 +91,6 @@ router.get('/concerts', function (req, res) {
         
         concerts.forEach((concert)=>{
             concert.imagesrc=path.join('/img/concerts/',concert.id+'.jpg');
-            //concert.date=concert.date.toString().slice(0,21);
             concert.date= DateToISOLocal(concert.date); 
         })
         res.render("admin/concerts", { title, concerts,signedIn:req.signedIn});
@@ -126,12 +99,6 @@ router.get('/concerts', function (req, res) {
 
   });
   
-
-
-
-
-
-
 router.post("/concerts/delete", urlencodedParser, (req, res) => {
   db.query(`DELETE FROM concerts WHERE id=${req.body.id}`,
     function (err, results) {
@@ -177,14 +144,6 @@ router.post("/concerts/posterupload", urlencodedParser, async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
 router.get("/gallery", async (req, res) => {
   var title =res.__('layout.navbar.gallery')+' | '+res.__('title');
   let images=[];
@@ -218,10 +177,6 @@ router.post("/gallery/upload", urlencodedParser, (req, res) => {
   });    
   res.redirect('/admin/gallery');
 });
-
-
-
-
 
 
   

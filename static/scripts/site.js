@@ -70,7 +70,7 @@ function InitHook(){
   }
   if (document.getElementById('YourPlayerID')) {
     var controller = new YTV('YourPlayerID', {
-      playlist: 'PLT48bKCGz_hFkLhewv5bwVpeZjmHIfflz',
+      playlist: 'PLyI9VmhxB4FwTBwiLgyRK0eNTe5tKEQoI',
       responsive: true,
       accent: '#fff',
       browsePlaylists: true,

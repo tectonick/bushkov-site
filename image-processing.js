@@ -1,8 +1,5 @@
-const jimp = require("jimp");
 const Jimp = require("jimp");
 const path=require('path');
-
-
 
 function smallImage(filepath){
 
@@ -37,9 +34,6 @@ function galleryImage(filepath){
     });
   
   }
-
-  
-
 
   function posterImage(filepath){
 
