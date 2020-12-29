@@ -82,6 +82,21 @@ router.get('/', function (req, res) {
   res.redirect("admin/login");
 });
 
+router.get('/text', async function (req, res) {
+  let text={};
+  text.violinist=await fs.readFile(path.join(__dirname,'..','locales/html',req.locale,'violinist.html'));
+  text.conductor=await fs.readFile(path.join(__dirname,'..','locales/html',req.locale,'conductor.html'));
+  text.teacher=await fs.readFile(path.join(__dirname,'..','locales/html',req.locale,'teacher.html'));
+  res.render("admin/text", { text, signedIn:req.signedIn});
+});
+
+router.post('/text', urlencodedParser,async function (req, res) {
+  await fs.writeFile(path.join(__dirname,'..','locales/html',req.locale,'violinist.html'),req.body.violinist_text);
+  await fs.writeFile(path.join(__dirname,'..','locales/html',req.locale,'conductor.html'),req.body.conductor_text);
+  await fs.writeFile(path.join(__dirname,'..','locales/html',req.locale,'teacher.html'),req.body.teacher_text);
+  res.redirect("text");
+});
+
 router.get('/concerts', function (req, res) {
     var title ='Admin'+' | '+res.__('title');
 
