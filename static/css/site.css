@@ -1,5 +1,12 @@
 /*General*/
 
+@font-face {
+  font-family: 'Gabriola';
+  src:  url('/fonts/Gabriola.woff2') format('woff2'),
+        url('/fonts/Gabriola.woff') format('woff');
+}
+
+
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -21,7 +28,6 @@
       background-attachment: fixed;
       background-size: contain; */
       color:white;
-      font-family: 'Times New Roman', Times, serif;
       font-family: 'Gabriola', Times, serif;
 
   }
