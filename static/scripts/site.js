@@ -1,3 +1,4 @@
+
 document.getElementById("en").onclick = () => {
   document.cookie = "locale=en; expires=Thu, 18 Dec 2999 12:00:00 UTC; path=/";
 };
@@ -74,9 +75,18 @@ function createPost(post){
 }
 
 
-
-
-
+function loadPosts(count,from=loadPosts.loadedCount){
+  let blog=document.getElementById("blog");
+  fetch(`http://localhost/api/blog/posts?from=${from}&count=${count}`)
+  .then((response) => response.json())
+  .then((posts) => {
+    Array.from(posts).forEach((post) => {
+      let postDiv = createPost(post);
+      blog.append(postDiv);
+    });
+    loadPosts.loadedCount+=posts.length;
+  });
+}
 
 function InitHook(){
 
@@ -85,14 +95,13 @@ function InitHook(){
   let blog=document.getElementById("blog");
 
   if (blog) {
-    fetch('http://localhost/api/blog/posts')
-  .then(response=>response.json())
-  .then((posts)=>{
-    Array.from(posts).forEach((post)=>{
-        let postDiv=createPost(post);
-        blog.append(postDiv);
+    loadPosts.loadedCount=0;
+    loadPosts(4, 0);
+    let nextPostsButton=document.getElementById('next-posts');
+    nextPostsButton.addEventListener('click',(e)=>{
+      e.preventDefault();
+      loadPosts(4);
     });
-  });
   }
 
   
