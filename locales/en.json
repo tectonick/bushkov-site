@@ -24,5 +24,7 @@
 	"contacts.text": "You can always write me on evgbush@gmail.com or to use Whatsapp/Viber on +79859208203",
 	"contacts.phone": "Phone",
 	"contacts.mail": "Mail",
-	"contacts.facebook": "Facebook"
+	"contacts.facebook": "Facebook",
+	"layout.navbar.blog": "Blog",
+	"blog.title": "My blog"
 }

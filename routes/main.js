@@ -71,6 +71,20 @@ router.get("/concerts", (req, res) => {
 
 });
 
+router.get("/blog", async (req, res) => {
+    var title = res.__('layout.navbar.blog') + ' | ' + res.__('title');
+    let posts = [{title:'title', text:'text', date:'date', tags:['text', 'poem']},{title:'title2', text:'text2', date:'date2', tags:['thoughts', 'opinion','music']}]
+    res.render('blog.hbs', { title, posts, signedIn: req.signedIn });
+});
+
+router.get("/api/blog/posts", async (req, res) => {
+    let posts = [{title:'title', text:'text', date:'date', tags:['text', 'poem']},{title:'title2', text:'text2', date:'date2', tags:['thoughts', 'opinion','music']}]
+    res.json(posts);
+});
+
+
+
+
 router.get("/contacts", (req, res) => {
     var title = res.__('layout.navbar.contacts') + ' | ' + res.__('title');
     res.render('contacts.hbs', { title, signedIn: req.signedIn });

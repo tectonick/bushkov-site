@@ -1,0 +1,65 @@
+<img id="bushkov-violinist" class="main-img" srcset="img/bushkov-violinist/bushkov-violinist.jpg 1920w,
+             img/bushkov-violinist/bushkov-violinist@0,75x.jpg 1440w, img/bushkov-violinist/bushkov-violinist@0,5x.jpg 960w,
+             img/bushkov-violinist/bushkov-violinist@0,25x.jpg 480w" src="bushkov-violinist.jpg" alt="">
+
+<div id="blog" class='text-block'>
+    <h1>{{__ 'blog.title'}}</h1>
+
+    {{!-- {{#each posts}}
+    <div class="post">
+        <h3>{{this.title}}</h3>
+        <em class="date">{{this.date}}</em>        
+        <div class="post-text">{{{this.text}}}</div>
+        <div class="tags mt-3">
+            {{#each this.tags}}
+            <a class="" href="/blog#{{this}}">
+                #{{this}}
+            </a>
+            {{/each}}
+        </div>
+    </div>
+    {{/each}} --}}
+
+
+</div>
+
+<script>
+
+    function createPost(post){
+        let postDiv=document.createElement('div');
+            postDiv.classList.add('post');
+            let postDate=document.createElement('em');
+            postDate.classList.add('date');
+            postDate.innerText=post.date;
+            let postTitle=document.createElement('h3');
+            postTitle.innerText=post.title;
+            let postText=document.createElement('div');
+            postText.classList.add('post-text');
+            postText.innerHTML=post.text;
+            let postTags=document.createElement('div');
+            postTags.classList.add('tags');
+            post.tags.forEach((tag)=>{
+                let postTag=document.createElement('a');
+                postTag.href=`/blog#${tag}`;
+                postTag.innerText=`#${tag}`;
+                postTags.append(postTag);
+            });
+            postDiv.append(postTitle);
+            postDiv.append(postDate);
+            postDiv.append(postText);
+            postDiv.append(postTags);
+            return postDiv;
+    }
+    document.addEventListener('Ready', ()=>{
+    fetch('http://localhost/api/blog/posts')
+    .then(response=>response.json())
+    .then((posts)=>{
+        Array.from(posts).forEach((post)=>{
+            let postDiv=createPost(post);
+            document.getElementById('blog').append(postDiv);
+        });
+    })
+    });
+
+
+</script>

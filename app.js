@@ -11,7 +11,7 @@ const i18n = require('i18n');
 const https = require('https');
 const fs = require('fs');
 const bodyParser = require("body-parser");
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({ extended: false, limit: '200mb' });
 const bcrypt = require('bcrypt');
 const uuidV4 = require("uuid.v4");
 

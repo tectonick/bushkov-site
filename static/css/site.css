@@ -394,3 +394,35 @@ pre{
   border: none !important;
   background: none !important;
 }
+
+
+
+
+#blog img{
+  max-width: 100%;
+}
+
+#blog .post{
+  position: relative;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid white;
+}
+
+#blog .post .date{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#blog a{
+  text-decoration: none;
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+  font-size:smaller;
+}
+
+#blog a:hover{
+  color: rgba(255,255,255,1);
+}

@@ -47,10 +47,56 @@ barba.init({
 });
 
 
+function createPost(post){
+  let postDiv=document.createElement('div');
+      postDiv.classList.add('post');
+      let postDate=document.createElement('em');
+      postDate.classList.add('date');
+      postDate.innerText=post.date;
+      let postTitle=document.createElement('h3');
+      postTitle.innerText=post.title;
+      let postText=document.createElement('div');
+      postText.classList.add('post-text');
+      postText.innerHTML=post.text;
+      let postTags=document.createElement('div');
+      postTags.classList.add('tags');
+      post.tags.forEach((tag)=>{
+          let postTag=document.createElement('a');
+          postTag.href=`/blog#${tag}`;
+          postTag.innerText=`#${tag}`;
+          postTags.append(postTag);
+      });
+      postDiv.append(postTitle);
+      postDiv.append(postDate);
+      postDiv.append(postText);
+      postDiv.append(postTags);
+      return postDiv;
+}
+
+
+
+
+
+
 function InitHook(){
 
   let video=document.getElementById("video1");
   let player=document.getElementById("YourPlayerID");
+  let blog=document.getElementById("blog");
+
+  if (blog) {
+    fetch('http://localhost/api/blog/posts')
+  .then(response=>response.json())
+  .then((posts)=>{
+    Array.from(posts).forEach((post)=>{
+        let postDiv=createPost(post);
+        blog.append(postDiv);
+    });
+  });
+  }
+
+  
+
   if (player){
 
     window.document.dispatchEvent(ReadyEvent);
@@ -138,6 +184,9 @@ barba.hooks.afterLeave(data => {
     });
   }
 });
+
+
+
 
 
 

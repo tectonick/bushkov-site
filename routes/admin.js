@@ -3,7 +3,7 @@ const fs=require('fs').promises;
 const path=require("path");
 const db=require('../db');
 const bodyParser = require("body-parser");
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const urlencodedParser = bodyParser.urlencoded({ extended: false, limit:'50mb' });
 const imageProcessor = require("../image-processing");
 const router = express.Router();
 
@@ -89,6 +89,12 @@ router.get('/text', async function (req, res) {
   text.teacher=await fs.readFile(path.join(__dirname,'..','locales/html',req.locale,'teacher.html'));
   res.render("admin/text", { text, signedIn:req.signedIn});
 });
+
+
+router.get('/blog', async function (req, res) {
+  res.render("admin/blog", { signedIn:req.signedIn});
+});
+
 
 router.post('/text', urlencodedParser,async function (req, res) {
   await fs.writeFile(path.join(__dirname,'..','locales/html',req.locale,'violinist.html'),req.body.violinist_text);

@@ -23,5 +23,7 @@
 	"contacts.facebook": "Facebook",
 	"teacher.title": "Педагог",
 	"conductor.title": "Дирижер",
-	"violinist.title": "Скрипач"
+	"violinist.title": "Скрипач",
+	"layout.navbar.blog": "Блог",
+	"blog.title": "Мой блог"
 }
