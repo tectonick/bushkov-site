@@ -75,14 +75,115 @@ function createPost(post){
 }
 
 
-function loadPosts(count,from=loadPosts.loadedCount){
-  let blog=document.getElementById("blog");
-  fetch(`http://localhost/api/blog/posts?from=${from}&count=${count}`)
+function createPostForm(post){
+  let postDiv=document.createElement('div');
+      postDiv.classList.add('post');
+      let postForm=document.createElement('form');
+      let postDate=document.createElement('input');
+      postDate.type='datetime';
+
+      postDate.classList.add('date');
+      postDate.innerText=post.date;
+      postDate.value=post.date;
+      postDate.name='date';
+      let postTitle=document.createElement('input');
+      postTitle.type='text';
+      postTitle.name='title';
+      postTitle.innerText=post.title;
+      postTitle.value=post.title;
+      postTitle.placeholder='Название поста';
+
+      let postText=document.createElement('textarea');
+      postText.classList.add('editor');
+      postText.innerText=post.text;
+      postText.name='text';
+      postText.rows=5;
+
+      let postTags=document.createElement('div');
+      postTags.classList.add('tags');
+      post.tags.forEach((tag, index)=>{
+          let postTag=document.createElement('input');
+          postTag.innerText=tag;          
+          postTag.type='text';
+          postTag.name='tag'+index;
+          postTag.value=tag;
+          postTag.placeholder='Тег';
+          postTags.append(postTag);
+
+      });
+      postForm.append(postTitle);
+      postForm.append(postDate);
+      postForm.append(postText);
+      postForm.append(postTags);
+      postDiv.append(postForm);
+      
+      return postDiv;
+}
+
+function initTiny(){
+  tinymce.init({
+    selector: 'textarea.editor',
+    plugins: 'paste importcss searchreplace autolink save visualblocks visualchars image link media template table charmap hr pagebreak nonbreaking toc insertdatetime advlist lists imagetools textpattern noneditable charmap quickbars emoticons',
+    imagetools_cors_hosts: ['picsum.photos'],
+    menubar: 'edit view insert format tools table',
+    toolbar: 'undo redo | bold italic underline strikethrough | image media link | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap emoticons ',
+    toolbar_sticky: true,
+    image_advtab: true,
+    link_list: [
+        { title: 'My page 1', value: 'http://www.tinymce.com' },
+        { title: 'My page 2', value: 'http://www.moxiecode.com' }
+    ],
+    image_list: [
+        { title: 'My page 1', value: 'http://www.tinymce.com' },
+        { title: 'My page 2', value: 'http://www.moxiecode.com' }
+    ],
+    image_class_list: [
+        { title: 'None', value: '' },
+        { title: 'Some class', value: 'class-name' }
+    ],
+    importcss_append: true,
+    file_picker_callback: function (callback, value, meta) {
+        /* Provide file and text for the link dialog */
+        if (meta.filetype === 'file') {
+            callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
+        }
+        /* Provide image and alt text for the image dialog */
+        if (meta.filetype === 'image') {
+            callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
+        }
+        /* Provide alternative source and posted for the media dialog */
+        if (meta.filetype === 'media') {
+            callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
+        }
+    },
+    templates: [
+        { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
+        { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
+        { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
+    ],
+    template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+    height: 600,
+    image_caption: true,
+    quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    toolbar_mode: 'sliding',
+    contextmenu: 'link image imagetools table',
+    content_style: ' body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }'
+});
+}
+
+
+function loadPosts(where, postConstructor,count,from=loadPosts.loadedCount){
+  if (loadPosts.loadedCount===undefined) {
+    loadPosts.loadedCount=0;
+  }
+  return fetch(`http://localhost/api/blog/posts?from=${from}&count=${count}`)
   .then((response) => response.json())
   .then((posts) => {
     Array.from(posts).forEach((post) => {
-      let postDiv = createPost(post);
-      blog.append(postDiv);
+      let postDiv = postConstructor(post);
+      where.append(postDiv);
     });
     loadPosts.loadedCount+=posts.length;
   });
@@ -93,15 +194,28 @@ function InitHook(){
   let video=document.getElementById("video1");
   let player=document.getElementById("YourPlayerID");
   let blog=document.getElementById("blog");
+  let adminBlog=document.getElementById("admin-blog");
 
   if (blog) {
-    loadPosts.loadedCount=0;
-    loadPosts(4, 0);
+    loadPosts(blog,createPost,4, 0);
     let nextPostsButton=document.getElementById('next-posts');
     nextPostsButton.addEventListener('click',(e)=>{
       e.preventDefault();
-      loadPosts(4);
+      loadPosts(blog,createPost,4);
     });
+  }
+
+  if (adminBlog) {
+    loadPosts(adminBlog,createPostForm,4, 0).then(()=>{
+      initTiny();
+    });
+    let nextPostsButton=document.getElementById('next-posts');
+    nextPostsButton.addEventListener('click',(e)=>{
+      e.preventDefault();
+      loadPosts(adminBlog,createPostForm,4).then(()=>{
+        initTiny();
+      });
+    });   
   }
 
   

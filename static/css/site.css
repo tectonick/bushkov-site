@@ -402,7 +402,7 @@ pre{
   max-width: 100%;
 }
 
-#blog .post{
+#blog .post, #admin-blog .post{
   position: relative;
   margin: 10px;
   padding: 10px;
