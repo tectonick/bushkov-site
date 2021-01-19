@@ -79,13 +79,26 @@ function createPostForm(post){
   let postDiv=document.createElement('div');
       postDiv.classList.add('post');
       let postForm=document.createElement('form');
+
+
+
+      let postId=document.createElement('input');
+      postId.type='hidden';
+      postId.name='id';
+      postId.value=post.id;
+
       let postDate=document.createElement('input');
       postDate.type='datetime';
-
       postDate.classList.add('date');
       postDate.innerText=post.date;
       postDate.value=post.date;
       postDate.name='date';
+
+      let postSavedLabel=document.createElement('p');
+      postSavedLabel.innerText='Не изменено';
+      postSavedLabel.style.backgroundColor="gray";
+      postSavedLabel.style.paddingLeft='10px';
+
       let postTitle=document.createElement('input');
       postTitle.type='text';
       postTitle.name='title';
@@ -97,7 +110,10 @@ function createPostForm(post){
       postText.classList.add('editor');
       postText.innerText=post.text;
       postText.name='text';
-      postText.rows=5;
+      postText.rows=5; 
+
+
+
 
       let postTags=document.createElement('div');
       postTags.classList.add('tags');
@@ -109,12 +125,62 @@ function createPostForm(post){
           postTag.value=tag;
           postTag.placeholder='Тег';
           postTags.append(postTag);
-
       });
+
+      let postSaveButton=document.createElement('input');
+      postSaveButton.classList.add('form-control');
+      postSaveButton.type='submit';
+      postSaveButton.value='Сохранить';
+      postSaveButton.name = "save";
+      postSaveButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        let data = new FormData(postForm);
+        fetch("/api/blog/save", { method: "POST", body: data })
+          .then(() => {
+            postSavedLabel.innerText = "Cохранено";
+            postSavedLabel.style.backgroundColor = "green";
+          })
+          .catch(() => {
+            postSavedLabel.innerText = "Ошибка сохранения";
+            postSavedLabel.style.backgroundColor = "red";
+          });
+      });
+
+      let postDeleteButton=document.createElement('input');
+      postDeleteButton.classList.add('form-control');
+      postDeleteButton.type='submit';
+      postDeleteButton.value='Удалить';
+      postDeleteButton.name='delete';
+      postDeleteButton.addEventListener('click',(e)=>{
+        e.preventDefault();
+        fetch('/api/blog/delete',{method:'POST', body:{id:post.id}});
+        postDiv.remove();
+      })
+
+
+      postForm.addEventListener('input',(e)=>{
+        postSavedLabel.style.backgroundColor='orange';
+        postSavedLabel.innerText='Не сохранено';
+      });
+      postText.addEventListener('update',(e)=>{
+        postSavedLabel.style.backgroundColor='orange';
+        postSavedLabel.innerText='Не сохранено';
+      });
+
+      let postButtons=document.createElement('div');
+      postButtons.classList.add('post-buttons');
+      postButtons.append(postDeleteButton);
+      postButtons.append(postSaveButton);     
+
+
+      postForm.append(postId);
       postForm.append(postTitle);
       postForm.append(postDate);
       postForm.append(postText);
       postForm.append(postTags);
+      postForm.append(postButtons);
+      postForm.append(postSavedLabel);
+
       postDiv.append(postForm);
       
       return postDiv;
@@ -155,6 +221,14 @@ function initTiny(){
         if (meta.filetype === 'media') {
             callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
         }
+    },
+    setup:function(ed) {
+      ed.on('keyup', function (e) {
+        ed.targetElm.dispatchEvent(new Event('update'));
+    });
+      ed.on('change', function(e) {
+        ed.targetElm.dispatchEvent(new Event('update'));
+      });
     },
     templates: [
         { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },

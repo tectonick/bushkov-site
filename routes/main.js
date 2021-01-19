@@ -86,33 +86,70 @@ router.get("/blog", async (req, res) => {
   res.render("blog.hbs", { title, posts, signedIn: req.signedIn });
 });
 
-router.get("/api/blog/posts", async (req, res) => {
-    let from=req.query.from||0;
-    let count=req.query.count||5;
-  let postsDB = [
-    { id:1, title: "title", text: "text", date: "date", tags: ["text", "poem"] },
-    {
-      title: "title2",
-      text: "text2",
-      date: "date2",
-      tags: ["thoughts", "opinion", "music"],
-    },
-    { id:2, title: "title3", text: "text", date: "date", tags: ["text", "poem"] },
-    { id:3, title: "title4", text: "text", date: "date", tags: ["text", "poem"] },
-    { id:4, title: "title5", text: "text", date: "date", tags: ["text", "poem"] },
-    { id:5, title: "title6", text: "text", date: "date", tags: ["text", "poem"] },
-    { id:6, title: "title7", text: "text", date: "date", tags: ["text", "poem"] },
-    { id:7, title: "title8", text: "text", date: "date", tags: ["text", "poem"] },
-  ];
-  let posts=[];
-  for (let i = from; i < from+count; i++) {
-      if (i>=postsDB.length) {
-          break;          
-      }
-      posts.push(postsDB[i]);      
+
+
+
+let postsDB = [
+  { id:1, title: "title", text: "text", date: "date", tags: ["text", "poem"] },
+  {
+    title: "title2",
+    text: "text2",
+    date: "date2",
+    tags: ["thoughts", "opinion", "music"],
+  },
+  { id:2, title: "title3", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:3, title: "title4", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:4, title: "title5", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:5, title: "title6", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:6, title: "title7", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:7, title: "title8", text: "text", date: "date", tags: ["text", "poem"] },
+];
+
+
+router.post("/api/blog/add", async (req, res) => {
+  let newPost={
+    id:0,
+    title:req.body.title,
+    date:req.body.title,
+    text:req.body.title,
+    tags:req.body.tags    
   }
-  res.json(posts);
+  postsDB.push(newPost);
+  res.json({newPost});
 });
+router.post("/api/blog/delete", async (req, res) => {
+  let indexToDelete=postsDB.findIndex((elem)=>{elem.id===req.body.id});
+  postsDB.splice(indexToDelete,1);
+  res.json({status:'deleted'});
+});
+router.post("/api/blog/save", async (req, res) => {
+  let updatedPost={
+    id:req.body.id,
+    title:req.body.title,
+    date:req.body.title,
+    text:req.body.title,
+    tags:req.body.tags    
+  };
+  let indexToReplace=postsDB.findIndex((elem)=>{elem.id===req.body.id});
+  postsDB.splice(indexToReplace,1,updatedPost);
+  res.json({updatedPost});
+});
+
+router.get("/api/blog/posts", async (req, res) => {
+  let from=req.query.from||0;
+  let count=req.query.count||5;
+
+let posts=[];
+for (let i = from; i < from+count; i++) {
+    if (i>=postsDB.length) {
+        break;          
+    }
+    posts.push(postsDB[i]);      
+}
+res.json(posts);
+});
+
+
 
 router.get("/contacts", (req, res) => {
   var title = res.__("layout.navbar.contacts") + " | " + res.__("title");
