@@ -2,7 +2,8 @@ const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
 const db = require("../db");
-
+const bodyParser=require('body-parser');
+const urlencodedParser = bodyParser.urlencoded({ extended: false, limit:'50mb' });
 const router = express.Router();
 
 function DateToISOLocal(date) {
@@ -89,48 +90,51 @@ router.get("/blog", async (req, res) => {
 
 
 
-let postsDB = [
+var postsDB = [
   { id:1, title: "title", text: "text", date: "date", tags: ["text", "poem"] },
   {
+    id:2,
     title: "title2",
     text: "text2",
     date: "date2",
     tags: ["thoughts", "opinion", "music"],
   },
-  { id:2, title: "title3", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:3, title: "title4", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:4, title: "title5", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:5, title: "title6", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:6, title: "title7", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:7, title: "title8", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:3, title: "title3", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:4, title: "title4", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:5, title: "title5", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:6, title: "title6", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:7, title: "title7", text: "text", date: "date", tags: ["text", "poem"] },
+  { id:8, title: "title8", text: "text", date: "date", tags: ["text", "poem"] },
 ];
 
 
-router.post("/api/blog/add", async (req, res) => {
+router.post("/api/blog/add", urlencodedParser, async (req, res) => {
   let newPost={
     id:0,
-    title:req.body.title,
-    date:req.body.title,
-    text:req.body.title,
-    tags:req.body.tags    
+    title:'',
+    date:'',
+    text:'',
+    tags:[]   
   }
-  postsDB.push(newPost);
+  postsDB.unshift(newPost);
   res.json({newPost});
 });
-router.post("/api/blog/delete", async (req, res) => {
-  let indexToDelete=postsDB.findIndex((elem)=>{elem.id===req.body.id});
+router.post("/api/blog/delete", urlencodedParser, async (req, res) => {
+  let indexToDelete=postsDB.findIndex((elem)=>{
+    return elem.id==req.body.id;
+  });
   postsDB.splice(indexToDelete,1);
   res.json({status:'deleted'});
 });
-router.post("/api/blog/save", async (req, res) => {
+router.post("/api/blog/save", urlencodedParser, async (req, res) => {
   let updatedPost={
     id:req.body.id,
     title:req.body.title,
-    date:req.body.title,
-    text:req.body.title,
-    tags:req.body.tags    
+    date:req.body.date,
+    text:req.body.text,
+    tags:req.body.tags.split(', ')   
   };
-  let indexToReplace=postsDB.findIndex((elem)=>{elem.id===req.body.id});
+  let indexToReplace=postsDB.findIndex((elem)=>{ return elem.id==req.body.id;});
   postsDB.splice(indexToReplace,1,updatedPost);
   res.json({updatedPost});
 });

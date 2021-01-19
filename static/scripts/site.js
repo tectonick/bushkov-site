@@ -115,17 +115,13 @@ function createPostForm(post){
 
 
 
-      let postTags=document.createElement('div');
+      let postTags=document.createElement('input');
+      postTags.type='text';
+      postTags.name='tags';
+      postTags.innerText=post.tags.join(', ');
+      postTags.value=postTags.innerText;
+      postTags.placeholder='Теги';
       postTags.classList.add('tags');
-      post.tags.forEach((tag, index)=>{
-          let postTag=document.createElement('input');
-          postTag.innerText=tag;          
-          postTag.type='text';
-          postTag.name='tag'+index;
-          postTag.value=tag;
-          postTag.placeholder='Тег';
-          postTags.append(postTag);
-      });
 
       let postSaveButton=document.createElement('input');
       postSaveButton.classList.add('form-control');
@@ -134,6 +130,7 @@ function createPostForm(post){
       postSaveButton.name = "save";
       postSaveButton.addEventListener("click", (e) => {
         e.preventDefault();
+        tinyMCE.triggerSave(); 
         let data = new FormData(postForm);
         fetch("/api/blog/save", { method: "POST", body: data })
           .then(() => {
@@ -153,7 +150,7 @@ function createPostForm(post){
       postDeleteButton.name='delete';
       postDeleteButton.addEventListener('click',(e)=>{
         e.preventDefault();
-        fetch('/api/blog/delete',{method:'POST', body:{id:post.id}});
+        fetch('/api/blog/delete',{method:'POST', body:new FormData(postDeleteButton.form)});
         postDiv.remove();
       })
 
@@ -176,8 +173,9 @@ function createPostForm(post){
       postForm.append(postId);
       postForm.append(postTitle);
       postForm.append(postDate);
-      postForm.append(postText);
       postForm.append(postTags);
+      postForm.append(postText);
+
       postForm.append(postButtons);
       postForm.append(postSavedLabel);
 
@@ -290,6 +288,15 @@ function InitHook(){
         initTiny();
       });
     });   
+    let addPostButton=document.getElementById('post-add');
+    addPostButton.addEventListener('click',(e)=>{
+      e.preventDefault();
+      fetch('/api/blog/add', {method:'POST', body:{id:0}}).then(()=>{
+        window.location.reload();
+        
+      });
+      
+    })
   }
 
   
