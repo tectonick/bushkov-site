@@ -2,8 +2,11 @@ const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
 const db = require("../db");
-const bodyParser=require('body-parser');
-const urlencodedParser = bodyParser.urlencoded({ extended: false, limit:'50mb' });
+const bodyParser = require("body-parser");
+const urlencodedParser = bodyParser.urlencoded({
+  extended: false,
+  limit: "50mb",
+});
 const router = express.Router();
 
 function DateToISOLocal(date) {
@@ -75,85 +78,78 @@ router.get("/concerts", (req, res) => {
 
 router.get("/blog", async (req, res) => {
   var title = res.__("layout.navbar.blog") + " | " + res.__("title");
-  let posts = [
-    { title: "title", text: "text", date: "date", tags: ["text", "poem"] },
-    {
-      title: "title2",
-      text: "text2",
-      date: "date2",
-      tags: ["thoughts", "opinion", "music"],
-    },
-  ];
-  res.render("blog.hbs", { title, posts, signedIn: req.signedIn });
+  res.render("blog.hbs", { title, signedIn: req.signedIn });
 });
-
-
-
-
-var postsDB = [
-  { id:1, title: "title", text: "text", date: "date", tags: ["text", "poem"] },
-  {
-    id:2,
-    title: "title2",
-    text: "text2",
-    date: "date2",
-    tags: ["thoughts", "opinion", "music"],
-  },
-  { id:3, title: "title3", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:4, title: "title4", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:5, title: "title5", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:6, title: "title6", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:7, title: "title7", text: "text", date: "date", tags: ["text", "poem"] },
-  { id:8, title: "title8", text: "text", date: "date", tags: ["text", "poem"] },
-];
 
 
 router.post("/api/blog/add", urlencodedParser, async (req, res) => {
-  let newPost={
-    id:0,
-    title:'',
-    date:'',
-    text:'',
-    tags:[]   
-  }
-  postsDB.unshift(newPost);
-  res.json({newPost});
+  let newPost = {
+    id: 0,
+    title: "",
+    text: "",
+    date: "1970-01-01 00:00:00",
+    tags: "",
+    hidden: 0,
+  };
+  db.query(
+    `INSERT INTO posts VALUES (${newPost.id},'${newPost.title}','${newPost.text}','${newPost.date}', '${newPost.tags}', ${newPost.hidden})`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json({ newPost });
+    }
+  );
 });
 router.post("/api/blog/delete", urlencodedParser, async (req, res) => {
-  let indexToDelete=postsDB.findIndex((elem)=>{
-    return elem.id==req.body.id;
-  });
-  postsDB.splice(indexToDelete,1);
-  res.json({status:'deleted'});
+  db.query(
+    `DELETE FROM posts WHERE id=${req.body.id}`,
+    function (err, results) {
+      if (err) console.log(err);
+      res.json({ status: "deleted" });
+    }
+  );
 });
+
 router.post("/api/blog/save", urlencodedParser, async (req, res) => {
-  let updatedPost={
-    id:req.body.id,
-    title:req.body.title,
-    date:req.body.date,
-    text:req.body.text,
-    tags:req.body.tags.split(', ')   
+  let updatedPost = {
+    id: req.body.id,
+    title: req.body.title,
+    date: req.body.date.slice(0, 19).replace('T', ' '),
+    text: req.body.text,
+    tags: req.body.tags,
+    hidden:((typeof req.body.hidden)=='undefined')?0:1
   };
-  let indexToReplace=postsDB.findIndex((elem)=>{ return elem.id==req.body.id;});
-  postsDB.splice(indexToReplace,1,updatedPost);
-  res.json({updatedPost});
+   
+  
+  db.query(`UPDATE posts SET title = '${updatedPost.title}', \
+    date = '${updatedPost.date}', text = '${updatedPost.text}',\
+    hidden = '${updatedPost.hidden}', \
+    tags = '${updatedPost.tags}' WHERE ${updatedPost.id}=id;`,
+    function (err, results) {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      } else {
+        res.json({updatedPost});
+      }
+    });;
 });
 
 router.get("/api/blog/posts", async (req, res) => {
-  let from=req.query.from||0;
-  let count=req.query.count||5;
+  let from = req.query.from || 0;
+  let count = req.query.count || 5;
 
-let posts=[];
-for (let i = from; i < from+count; i++) {
-    if (i>=postsDB.length) {
-        break;          
+  db.query(
+    `SELECT * FROM posts WHERE hidden=FALSE AND date>='1970-01-01' ORDER BY date DESC LIMIT ${count} OFFSET ${from}`,
+    function (err, posts) {
+      if (err) console.log(err);
+      posts.forEach((post) => {
+        post.tags = post.tags.split(", ");
+        post.date = DateToISOLocal(post.date).replace("T", " ").slice(0, 16);
+      });
+      res.json(posts);
     }
-    posts.push(postsDB[i]);      
-}
-res.json(posts);
+  );
 });
-
-
 
 router.get("/contacts", (req, res) => {
   var title = res.__("layout.navbar.contacts") + " | " + res.__("title");

@@ -88,10 +88,10 @@ function createPostForm(post){
       postId.value=post.id;
 
       let postDate=document.createElement('input');
-      postDate.type='datetime';
+      postDate.type='datetime-local';
       postDate.classList.add('date');
       postDate.innerText=post.date;
-      postDate.value=post.date;
+      postDate.value=post.date.replace(' ','T');
       postDate.name='date';
 
       let postSavedLabel=document.createElement('p');
