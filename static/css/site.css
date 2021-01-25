@@ -215,7 +215,7 @@ justify-content: center;
   display: block;
 }
 .concert-container h3{
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.1);
 }
 
 .concert-container .date{
@@ -327,7 +327,7 @@ pre{
 }
 
 #admin-concerts .concert{
-  background-color: rgba(255,255,255,0.2)
+  background-color: rgba(255,255,255,0.1)
 }
 
 
@@ -429,7 +429,7 @@ pre{
    /*padding: 10px; */
   border-radius: 5px;
   border: 1px solid white;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255,0.0);
 }
 
 #blog .post .date{
@@ -441,7 +441,7 @@ pre{
 
 
 #blog .post h3{
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.05);
   padding-left: 10px ;
   padding-top: 10px;
 }
@@ -487,4 +487,14 @@ pre{
 
 #deleteModal{
   color: #030303;
+}
+
+
+#show-all-button{
+  float: right;
+  font-size: larger !important;
+}
+
+.title h1{
+  float: left;
 }
