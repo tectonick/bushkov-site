@@ -313,7 +313,7 @@ function loadPosts(
   }
   let tag = location.hash.replace("#", "");
   return fetch(
-    `http://localhost/api/blog/posts?from=${from}&count=${count}&tag=${tag}`
+    `/api/blog/posts?from=${from}&count=${count}&tag=${tag}`
   )
     .then((response) => response.json())
     .then((posts) => {
