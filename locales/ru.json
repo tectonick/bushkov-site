@@ -25,5 +25,6 @@
 	"conductor.title": "Дирижер",
 	"violinist.title": "Скрипач",
 	"layout.navbar.blog": "Блог",
-	"blog.title": "Мой блог"
+	"blog.title": "Мой блог",
+	"blog.showAll": "Показать все"
 }

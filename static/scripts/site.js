@@ -65,7 +65,18 @@ function createPost(post){
           let postTag=document.createElement('a');
           postTag.href=`/blog#${tag}`;
           postTag.innerText=`#${tag}`;
+          postTag.addEventListener('click',(e)=>{
+            e.preventDefault();
+            location.hash=tag;
+            let blog=document.getElementById("blog");
+            blog.querySelectorAll('div').forEach((element)=>{
+              element.remove();
+            })
+            loadPosts.loadedCount=0;
+            loadPosts(blog,createPost,4, 0);
+          });
           postTags.append(postTag);
+          
       });
       postDiv.append(postTitle);
       postDiv.append(postDate);
@@ -78,6 +89,7 @@ function createPost(post){
 function createPostForm(post){
   let postDiv=document.createElement('div');
       postDiv.classList.add('post');
+      postDiv.setAttribute('name',post.id);
       let postForm=document.createElement('form');
 
 
@@ -87,6 +99,9 @@ function createPostForm(post){
       postId.name='id';
       postId.value=post.id;
 
+      let postMetaDiv=document.createElement('div');
+      postMetaDiv.classList.add('post-meta');
+
       let postDate=document.createElement('input');
       postDate.type='datetime-local';
       postDate.classList.add('date');
@@ -95,6 +110,7 @@ function createPostForm(post){
       postDate.name='date';
 
       let postSavedLabel=document.createElement('p');
+      postSavedLabel.classList.add('status');
       postSavedLabel.innerText='Не изменено';
       postSavedLabel.style.backgroundColor="gray";
       postSavedLabel.style.paddingLeft='10px';
@@ -150,8 +166,9 @@ function createPostForm(post){
       postDeleteButton.name='delete';
       postDeleteButton.addEventListener('click',(e)=>{
         e.preventDefault();
-        fetch('/api/blog/delete',{method:'POST', body:new FormData(postDeleteButton.form)});
-        postDiv.remove();
+        var modal = $('#deleteModal');
+        modal.attr('name', post.id);
+        modal.modal();
       })
 
 
@@ -171,9 +188,12 @@ function createPostForm(post){
 
 
       postForm.append(postId);
-      postForm.append(postTitle);
-      postForm.append(postDate);
-      postForm.append(postTags);
+      postForm.append(postMetaDiv);
+
+      postMetaDiv.append(postTitle);      
+      postMetaDiv.append(postTags);
+      postMetaDiv.append(postDate);
+
       postForm.append(postText);
 
       postForm.append(postButtons);
@@ -250,7 +270,8 @@ function loadPosts(where, postConstructor,count,from=loadPosts.loadedCount){
   if (loadPosts.loadedCount===undefined) {
     loadPosts.loadedCount=0;
   }
-  return fetch(`http://localhost/api/blog/posts?from=${from}&count=${count}`)
+  let tag=location.hash.replace('#','');
+  return fetch(`http://localhost/api/blog/posts?from=${from}&count=${count}&tag=${tag}`)
   .then((response) => response.json())
   .then((posts) => {
     Array.from(posts).forEach((post) => {
@@ -275,9 +296,29 @@ function InitHook(){
       e.preventDefault();
       loadPosts(blog,createPost,4);
     });
+    document.getElementById('show-all-button').addEventListener('click',(e)=>{
+      e.preventDefault();
+      location.hash='';
+      loadPosts.loadedCount=0;
+      loadPosts(blog,createPost,4);
+    });
+    
   }
 
   if (adminBlog) {
+
+
+  $("#modal-delete").click(function () {
+      let modal = $('#deleteModal');
+      let idToDelete = modal.attr('name');
+      let bodyData=new FormData();
+      bodyData.append('id',idToDelete);
+      fetch('/api/blog/delete',{method:'POST', body: bodyData});
+      document.querySelector(`div[name="${idToDelete}"]`).remove();
+      modal.modal('hide');
+  });
+
+
     loadPosts(adminBlog,createPostForm,4, 0).then(()=>{
       initTiny();
     });
@@ -338,15 +379,6 @@ function InitHook(){
         modal.modal();
     });
 
-    $("#modal-delete").click(function () {
-        let modal = $('#deleteModal');
-        let idToDelete = modal.attr('name');
-        console.log(idToDelete);
-        $(`[concertId=${idToDelete}]`).css('display', 'none');
-        $.post("/admin/concerts/delete", { id: idToDelete });
-        modal.modal('hide');
-
-    });
     $(".fileToUpload").change(function () {
   if ($(this).val().length>0){
         $(this).siblings('.form-control').prop('disabled', false);

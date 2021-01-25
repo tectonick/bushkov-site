@@ -87,7 +87,7 @@ router.post("/api/blog/add", urlencodedParser, async (req, res) => {
     id: 0,
     title: "",
     text: "",
-    date: "1970-01-01 00:00:00",
+    date:  DateToISOLocal(new Date()),
     tags: "",
     hidden: 0,
   };
@@ -137,9 +137,10 @@ router.post("/api/blog/save", urlencodedParser, async (req, res) => {
 router.get("/api/blog/posts", async (req, res) => {
   let from = req.query.from || 0;
   let count = req.query.count || 5;
+  let tag=req.query.tag || '%';
 
   db.query(
-    `SELECT * FROM posts WHERE hidden=FALSE AND date>='1970-01-01' ORDER BY date DESC LIMIT ${count} OFFSET ${from}`,
+    `SELECT * FROM posts WHERE hidden=FALSE AND date>='1970-01-01' AND tags LIKE '%${tag}%' ORDER BY date DESC LIMIT ${count} OFFSET ${from}`,
     function (err, posts) {
       if (err) console.log(err);
       posts.forEach((post) => {

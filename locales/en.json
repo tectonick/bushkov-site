@@ -26,5 +26,6 @@
 	"contacts.mail": "Mail",
 	"contacts.facebook": "Facebook",
 	"layout.navbar.blog": "Blog",
-	"blog.title": "My blog"
+	"blog.title": "My blog",
+	"blog.showAll": "Show all"
 }

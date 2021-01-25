@@ -107,6 +107,17 @@ nav{
   width: 53%;
 }
 
+#blog{
+  width: 58%;
+}
+#blog-next{
+  margin: 1% 2%;
+  width: 58%;
+  display: flex;
+justify-content: center;
+  font-size: 1.4vw;
+}
+
 .contacts-block{
   margin: 10% 3%;
 }
@@ -268,6 +279,15 @@ pre{
     font-size: 1rem;
     margin: 0 2%;
   }
+  #blog{
+    width: 96%;
+    
+  }
+  #blog-next{
+    margin: 1% 2%;
+    width: 96%;
+    font-size: large;
+  }
 }
 
 @media (max-width:768px){
@@ -399,21 +419,35 @@ pre{
 
 
 #blog img{
-  max-width: 100%;
+  /* max-width: 100%; */
+  width: calc(100% + 20px);;
 }
 
 #blog .post, #admin-blog .post{
   position: relative;
   margin: 10px;
-  padding: 10px;
+   /*padding: 10px; */
   border-radius: 5px;
   border: 1px solid white;
+  background-color: rgba(255,255,255,0.1);
 }
 
 #blog .post .date{
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+
+
+#blog .post h3{
+  background-color: rgba(255,255,255,0.2);
+  padding-left: 10px ;
+  padding-top: 10px;
+}
+
+#blog .post .tags{
+  padding-left: 10px ;
 }
 
 #blog a{
@@ -423,6 +457,34 @@ pre{
   font-size:smaller;
 }
 
+#blog .post-text{
+  padding: 10px 10px;
+}
+
+
+#blog .post-text img{
+  margin: 0px 0px 0px -10px;
+}
+
 #blog a:hover{
   color: rgba(255,255,255,1);
+}
+
+.status{
+  margin-bottom: 0 !important;
+}
+
+.post-buttons{
+  display: flex;
+}
+.post-meta{
+  display: flex;
+}
+
+.post-meta > *{
+  width: 100%;
+}
+
+#deleteModal{
+  color: #030303;
 }
