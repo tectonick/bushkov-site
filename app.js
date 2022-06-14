@@ -58,9 +58,11 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(function (req, res, next) {
-  if (req.cookies['locale'] == undefined) {
-    res.cookie('locale', req.getLocale(), { maxAge: 900000 });
+  let locale=req.getLocale();
+  if (req.cookies["locale"] == undefined || req.cookies["locale"] !==locale) {
+    res.cookie("locale", locale, { maxAge: 900000 });
   }
+  res.locals.lang = locale;
   next();
 });
 app.use(function (req, res, next) {
