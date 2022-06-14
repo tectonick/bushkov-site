@@ -15,10 +15,13 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false, limit: '200mb'
 const bcrypt = require('bcrypt');
 const uuidV4 = require("uuid.v4");
 
+const locales = ["en", "ru"];
+
 i18n.configure({
   // setup some locales - other locales default to en silently
   locales: ['en', 'ru'],
   defaultLocale: 'ru',
+  queryParameter: "lang",
   // sets a custom cookie name to parse locale settings from
   cookie: 'locale',
   // where to store json files - defaults to './locales'
@@ -50,6 +53,11 @@ app.set("view engine", "hbs");
 app.use(cookieParser());
 app.use(i18n.init);
 app.use(function (req, res, next) {
+  res.locals.fullUrl = `${req.protocol}://${req.get("host")}${req.path}`;
+  res.locals.locales = locales;
+  next();
+});
+app.use(function (req, res, next) {
   if (req.cookies['locale'] == undefined) {
     res.cookie('locale', req.getLocale(), { maxAge: 900000 });
   }
@@ -71,6 +79,8 @@ const admin = {
   user: "root",
   passhash: "$2b$12$8/U31eNNYwPxhTMdcC4ogeIttkJNHUUreKGUEuZHFoPD.TT.e//9u"
 }
+
+
 var sessionId = 'none';
 app.get("/login", (req, res) => {
   var title = 'Login' + ' | ' + res.__('title');

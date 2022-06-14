@@ -5,7 +5,11 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "dev": "nodemon app"
+    "dev": "nodemon app",
+    "test": "jest --verbose",
+    "git": "git add * && git commit && git push",
+    "deploy": "git ftp push",
+    "pipeline": "npm run git && npm run deploy"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
