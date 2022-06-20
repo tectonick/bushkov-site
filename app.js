@@ -50,6 +50,7 @@ const hbs = handlebars.create({
 });
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
+app.enable("trust proxy");
 app.use(cookieParser());
 app.use(i18n.init);
 app.use(function (req, res, next) {
