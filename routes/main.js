@@ -11,41 +11,41 @@ const router = express.Router();
 
 function DateToISOLocal(date) {
   // JS interprets db date as local and converts to UTC
-  var localDate = date - date.getTimezoneOffset() * 60 * 1000;
+  let localDate = date - date.getTimezoneOffset() * 60 * 1000;
   return new Date(localDate).toISOString().slice(0, 19);
 }
 
 async function getLocalizedHtml(localeName, filename) {
-  return await fs.readFile(
+  return fs.readFile(
     path.join(__dirname, "..", `/locales/html/${localeName}/${filename}`)
   );
 }
 
 router.get("/", (req, res) => {
-  var title = res.__("title");
+  let title = res.__("title");
   res.render("index.hbs", { title, signedIn: req.signedIn });
 });
 
 router.get("/violinist", async (req, res) => {
-  var title = res.__("layout.navbar.violinist") + " | " + res.__("title");
+  let title = res.__("layout.navbar.violinist") + " | " + res.__("title");
   let localizedText = await getLocalizedHtml(req.locale, "violinist.html");
   res.render("violinist.hbs", { title, signedIn: req.signedIn, localizedText });
 });
 
 router.get("/conductor", async (req, res) => {
-  var title = res.__("layout.navbar.conductor") + " | " + res.__("title");
+  let title = res.__("layout.navbar.conductor") + " | " + res.__("title");
   let localizedText = await getLocalizedHtml(req.locale, "conductor.html");
   res.render("conductor.hbs", { title, signedIn: req.signedIn, localizedText });
 });
 
 router.get("/teacher", async (req, res) => {
-  var title = res.__("layout.navbar.teacher") + " | " + res.__("title");
+  let title = res.__("layout.navbar.teacher") + " | " + res.__("title");
   let localizedText = await getLocalizedHtml(req.locale, "teacher.html");
   res.render("teacher.hbs", { title, signedIn: req.signedIn, localizedText });
 });
 
 router.get("/gallery", (req, res) => {
-  var title = res.__("layout.navbar.gallery") + " | " + res.__("title");
+  let title = res.__("layout.navbar.gallery") + " | " + res.__("title");
   let images = [];
   fs.readdir(path.join(__dirname, "../static/img/gallery")).then((entries) => {
     entries.forEach((img) => {
@@ -59,7 +59,7 @@ router.get("/gallery", (req, res) => {
 });
 
 router.get("/concerts", (req, res) => {
-  var title = res.__("layout.navbar.concerts") + " | " + res.__("title");
+  let title = res.__("layout.navbar.concerts") + " | " + res.__("title");
   db.query(
     "SELECT * FROM concerts WHERE hidden=FALSE AND date>=NOW() ORDER BY date",
     function (err, concerts) {
@@ -77,12 +77,12 @@ router.get("/concerts", (req, res) => {
 });
 
 router.get("/blog", async (req, res) => {
-  var title = res.__("layout.navbar.blog") + " | " + res.__("title");
+  let title = res.__("layout.navbar.blog") + " | " + res.__("title");
   res.render("blog.hbs", { title, signedIn: req.signedIn });
 });
 
 
-router.post("/api/blog/add", urlencodedParser, async (req, res) => {
+router.post("/api/blog/add", urlencodedParser, async (_req, res) => {
   let newPost = {
     id: 0,
     title: "",
@@ -93,7 +93,7 @@ router.post("/api/blog/add", urlencodedParser, async (req, res) => {
   };
   db.query(
     `INSERT INTO posts VALUES (${newPost.id},'${newPost.title}','${newPost.text}','${newPost.date}', '${newPost.tags}', ${newPost.hidden})`,
-    function (err, results) {
+    function (err) {
       if (err) console.log(err);
       res.json({ newPost });
     }
@@ -102,7 +102,7 @@ router.post("/api/blog/add", urlencodedParser, async (req, res) => {
 router.post("/api/blog/delete", urlencodedParser, async (req, res) => {
   db.query(
     `DELETE FROM posts WHERE id=${req.body.id}`,
-    function (err, results) {
+    function (err) {
       if (err) console.log(err);
       res.json({ status: "deleted" });
     }
@@ -124,14 +124,14 @@ router.post("/api/blog/save", urlencodedParser, async (req, res) => {
     date = '${updatedPost.date}', text = '${updatedPost.text}',\
     hidden = '${updatedPost.hidden}', \
     tags = '${updatedPost.tags}' WHERE ${updatedPost.id}=id;`,
-    function (err, results) {
+    function (err) {
       if (err) {
         console.log(err);
         res.sendStatus(400);
       } else {
         res.json({updatedPost});
       }
-    });;
+    });
 });
 
 router.get("/api/blog/posts", async (req, res) => {
@@ -153,12 +153,12 @@ router.get("/api/blog/posts", async (req, res) => {
 });
 
 router.get("/contacts", (req, res) => {
-  var title = res.__("layout.navbar.contacts") + " | " + res.__("title");
+  let title = res.__("layout.navbar.contacts") + " | " + res.__("title");
   res.render("contacts.hbs", { title, signedIn: req.signedIn });
 });
 
 router.get("/video", (req, res) => {
-  var title = res.__("layout.navbar.video") + " | " + res.__("title");
+  let title = res.__("layout.navbar.video") + " | " + res.__("title");
   res.render("video.hbs", { title, signedIn: req.signedIn });
 });
 

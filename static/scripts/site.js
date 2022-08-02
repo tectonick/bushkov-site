@@ -1,15 +1,22 @@
+function EnableUpload() {
+  if ($(this).val().length > 0) {
+    $(this).siblings(".form-control").prop("disabled", false);
+  }
+}
+
 document.getElementById("en").onclick = () => {
   document.cookie = "locale=en; expires=Thu, 18 Dec 2999 12:00:00 UTC; path=/";
 };
+
 document.getElementById("ru").onclick = () => {
   document.cookie = "locale=ru; expires=Thu, 18 Dec 2999 12:00:00 UTC; path=/";
 };
 
-
-var ReadyEvent = new Event("Ready", {
+let ReadyEvent = new Event("Ready", {
   bubbles: true,
   cancelable: true,
 });
+
 const activeClass = "active";
 barba.init({
   debug: true,
@@ -61,9 +68,6 @@ barba.hooks.afterLeave((data) => {
       });
   }
 });
-
-
-
 
 function clearBlog() {
   let blog = document.getElementById("blog");
@@ -180,16 +184,16 @@ function createPostForm(post) {
   postDeleteButton.name = "delete";
   postDeleteButton.addEventListener("click", (e) => {
     e.preventDefault();
-    var modal = $("#deleteModal");
+    let modal = $("#deleteModal");
     modal.attr("name", post.id);
     modal.modal();
   });
 
-  postForm.addEventListener("input", (e) => {
+  postForm.addEventListener("input", () => {
     postSavedLabel.style.backgroundColor = "orange";
     postSavedLabel.innerText = "Не сохранено";
   });
-  postText.addEventListener("update", (e) => {
+  postText.addEventListener("update", () => {
     postSavedLabel.style.backgroundColor = "orange";
     postSavedLabel.innerText = "Не сохранено";
   });
@@ -240,7 +244,7 @@ function initTiny() {
       { title: "Some class", value: "class-name" },
     ],
     importcss_append: true,
-    file_picker_callback: function (callback, value, meta) {
+    file_picker_callback: function (callback, _value, meta) {
       /* Provide file and text for the link dialog */
       if (meta.filetype === "file") {
         callback("https://www.google.com/logos/google.jpg", {
@@ -262,10 +266,10 @@ function initTiny() {
       }
     },
     setup: function (ed) {
-      ed.on("keyup", function (e) {
+      ed.on("keyup", function () {
         ed.targetElm.dispatchEvent(new Event("update"));
       });
-      ed.on("change", function (e) {
+      ed.on("change", function () {
         ed.targetElm.dispatchEvent(new Event("update"));
       });
     },
@@ -385,16 +389,12 @@ function InitHook() {
     $(this).parent().parent().css("display", "none");
     $.post("/admin/gallery/delete", { filename: $(this).attr("id") });
   });
-  $("#files").change(function () {
-    if ($(this).val().length > 0) {
-      $(this).siblings(".form-control").prop("disabled", false);
-    }
-  });
+  $("#files").change(EnableUpload);
   if (video) {
     video.play();
   }
   if (document.getElementById("YourPlayerID")) {
-    var controller = new YTV("YourPlayerID", {
+    new YTV("YourPlayerID", {
       playlist: "PLyI9VmhxB4FwTBwiLgyRK0eNTe5tKEQoI",
       responsive: true,
       accent: "#fff",
@@ -407,31 +407,29 @@ function InitHook() {
   }
 
   $(".delete-button").click(function () {
-    var modal = $("#deleteModal");
+    let modal = $("#deleteModal");
     modal.attr("name", $(this).attr("name"));
     modal.modal();
   });
 
-  $(".fileToUpload").change(function () {
-    if ($(this).val().length > 0) {
-      $(this).siblings(".form-control").prop("disabled", false);
-    }
-  });
+
+
+  $(".fileToUpload").change(EnableUpload);
 
   $(".save-button").click(function (ev) {
-    var target = ev.target;
+    let target = ev.target;
     target.setAttribute("disabled", "disabled");
-    var formName = $(this).attr("name");
-    var formData = $("#" + formName).serialize();
-    $.post("/admin/concerts/edit", formData, (data, status) => {
+    let formName = $(this).attr("name");
+    let formData = $("#" + formName).serialize();
+    $.post("/admin/concerts/edit", formData, () => {
       target.removeAttribute("disabled");
-      var oldColor = $(this).css("backgroundColor");
+      let oldColor = $(this).css("backgroundColor");
       $(this).animate({ backgroundColor: "#32CD32" }, 1000, function () {
         $(this).animate({ backgroundColor: oldColor });
       });
     }).fail(() => {
       target.removeAttribute("disabled");
-      var oldColor = $(this).css("backgroundColor");
+      let oldColor = $(this).css("backgroundColor");
       $(this).animate({ backgroundColor: "#8B0000" }, 1000, function () {
         $(this).animate({ backgroundColor: oldColor });
       });

@@ -1,0 +1,16 @@
+{
+    "images":{
+        "smallImage":{
+            "size":400,
+            "quality":70
+        },
+        "posterImage":{
+            "size":700,
+            "quality":85
+        },
+        "galleryImage":{
+            "size":1600,
+            "quality":70
+        }
+    }
+}

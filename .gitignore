@@ -117,3 +117,9 @@ dist
 
 # deploy ftp data
 /deploy/configFTP.ps1
+
+#local configuration
+config/local.json
+
+#rsa keys
+sec/

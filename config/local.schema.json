@@ -1,0 +1,17 @@
+{
+    "db":{
+        "host": "",
+        "user": "",
+        "password": "",
+        "database": ""
+    },
+    "adminUser":{
+        "user": "",
+        "passhash": ""
+    },
+    "ssl":{
+        "key":"",
+        "cert":"",
+        "httpsport":0
+    }
+}
