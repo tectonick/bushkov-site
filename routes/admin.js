@@ -31,33 +31,19 @@ async function MakeDefaultImage(newId, folder) {
 async function SaveTmpPoster(tmpfile, dstFolder, newId, thumbnailFolder) {
   let name = path.basename(tmpfile, path.extname(tmpfile));
   let dir = path.dirname(tmpfile);
-  let src = path.join(dir, name + ".jpg");
+  let src = path.join(dir, name + path.extname(tmpfile));
   let dst = path.join(__dirname, "../", dstFolder, newId + ".jpg");
   let dstThumbnail;
+  await fs.copyFile(src, dst);
   if (thumbnailFolder) {
     dstThumbnail = path.join(__dirname, "../", thumbnailFolder, name + ".jpg");
+    await fs.copyFile(src, dstThumbnail);
+    await imageProcessor.smallImage(dstThumbnail);
   }
-
-  return fs
-    .copyFile(src, dst)
-    .then(() => {
-      if (thumbnailFolder) {
-        return fs.copyFile(src, dstThumbnail);
-      }
-    })
-    .then(() => {
-      if (thumbnailFolder) {
-        return imageProcessor.smallImage(dstThumbnail);
-      }
-    })
-    .then(() => {
-      return fs.unlink(src);
-    })
-    .then(() => {
-      if (tmpfile != src) {
-        return fs.unlink(tmpfile);
-      }
-    });
+  await fs.unlink(src);
+  if (tmpfile != src) {
+    await fs.unlink(tmpfile);
+  }
 }
 
 async function PosterUpload(fileToUpload, folder, id, imageProcessorFunction) {
@@ -207,36 +193,41 @@ router.get("/gallery", async (req, res) => {
 });
 
 router.post("/gallery/delete", urlencodedParser, (req) => {
-  fs.unlink(path.join(__dirname, "../", "/static/", req.body.filename));
+  fs.unlink(
+    path.join(
+      __dirname,
+      "../",
+      "/static/img/gallery",
+      req.body.filename + ".jpg"
+    )
+  );
   fs.unlink(
     path.join(
       __dirname,
       "../",
       "/static/img/thumbnails/gallery/",
-      req.body.filename
+      req.body.filename + ".jpg"
     )
   );
 });
 
-router.post("/gallery/upload", urlencodedParser, (req, res) => {
+router.post("/gallery/upload", urlencodedParser, async (req, res) => {
   if (!req.files) {
     return res.status(400);
   }
   let files = FilesToArray(req.files);
-  files.forEach((fileToUpload) => {
+  for (const fileToUpload of files) {
     let tmpfile = path.join(__dirname, "..", "/tmp/", fileToUpload.name);
-    fileToUpload.mv(tmpfile, () => {
-      imageProcessor.galleryImage(tmpfile).then(() => {
-        let name = path.basename(tmpfile, path.extname(tmpfile));
-        return SaveTmpPoster(
-          tmpfile,
-          "/static/img/gallery/",
-          name,
-          "/static/img/thumbnails/gallery/"
-        );
-      });
-    });
-  });
+    await fileToUpload.mv(tmpfile);
+    await imageProcessor.galleryImage(tmpfile);
+    let name = path.basename(tmpfile, path.extname(tmpfile));
+    await SaveTmpPoster(
+      tmpfile,
+      "/static/img/gallery/",
+      name,
+      "/static/img/thumbnails/gallery/"
+    );
+  }
   res.redirect("/admin/gallery");
 });
 
