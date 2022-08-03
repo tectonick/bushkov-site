@@ -12,7 +12,7 @@
     <div>
         <div class="card-columns">
             {{#each images}}
-            <div class="card searchable"> <img class="card-img-top" loading=lazy src="/img/thumbnails/gallery/{{this.name}}.jpg" alt="Card image cap">
+            <div class="card searchable"> <img class="card-img-top" loading=lazy src='{{this.src}}' alt="Card image cap">
                 <div class="card-footer">
                     <p>{{this.name}}</p>                 
                     <input data-barba-prevent="self" id='{{this.src}}' class='delete-img-button form-control' type="submit" value="Удалить"></input>

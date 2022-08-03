@@ -197,12 +197,11 @@ router.post("/concerts/posterupload", urlencodedParser, async (req, res) => {
 router.get("/gallery", async (req, res) => {
   let title = res.__("layout.navbar.gallery") + " | " + res.__("title");
   let images = [];
-  fs.readdir(path.join(__dirname, "../static/img/gallery")).then((entries) => {
-    entries.forEach((img) => {
-      let name = path.parse(img).name;
-      let src = `/img/gallery/${encodeURIComponent(name)}.jpg`;
-      images.push({ name, src });
-    });
+  let entries = await fs.readdir(path.join(__dirname, "../static/img/gallery"));
+  entries.forEach((img) => {
+    let name = path.parse(img).name;
+    let src = `/img/gallery/${encodeURIComponent(name)}.jpg`;
+    images.push({ name, src });
   });
   res.render("admin/gallery.hbs", { title, images, signedIn: req.signedIn });
 });

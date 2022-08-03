@@ -44,15 +44,14 @@ router.get("/teacher", async (req, res) => {
   res.render("teacher.hbs", { title, signedIn: req.signedIn, localizedText });
 });
 
-router.get("/gallery", (req, res) => {
+router.get("/gallery", async (req, res) => {
   let title = res.__("layout.navbar.gallery") + " | " + res.__("title");
   let images = [];
-  fs.readdir(path.join(__dirname, "../static/img/gallery")).then((entries) => {
-    entries.forEach((img) => {
-      let name = path.parse(img).name;
-      let src = `/img/gallery/${encodeURIComponent(name)}.jpg`;
-      images.push({ name, src });
-    });
+  let entries = await fs.readdir(path.join(__dirname, "../static/img/gallery"));
+  entries.forEach((img) => {
+    let name = path.parse(img).name;
+    let src = `/img/gallery/${encodeURIComponent(name)}.jpg`;
+    images.push({ name, src });
   });
 
   res.render("gallery.hbs", { title, images, signedIn: req.signedIn });
@@ -81,13 +80,12 @@ router.get("/blog", async (req, res) => {
   res.render("blog.hbs", { title, signedIn: req.signedIn });
 });
 
-
 router.post("/api/blog/add", urlencodedParser, async (_req, res) => {
   let newPost = {
     id: 0,
     title: "",
     text: "",
-    date:  DateToISOLocal(new Date()),
+    date: DateToISOLocal(new Date()),
     tags: "",
     hidden: 0,
   };
@@ -100,27 +98,24 @@ router.post("/api/blog/add", urlencodedParser, async (_req, res) => {
   );
 });
 router.post("/api/blog/delete", urlencodedParser, async (req, res) => {
-  db.query(
-    `DELETE FROM posts WHERE id=${req.body.id}`,
-    function (err) {
-      if (err) console.log(err);
-      res.json({ status: "deleted" });
-    }
-  );
+  db.query(`DELETE FROM posts WHERE id=${req.body.id}`, function (err) {
+    if (err) console.log(err);
+    res.json({ status: "deleted" });
+  });
 });
 
 router.post("/api/blog/save", urlencodedParser, async (req, res) => {
   let updatedPost = {
     id: req.body.id,
     title: req.body.title,
-    date: req.body.date.slice(0, 19).replace('T', ' '),
+    date: req.body.date.slice(0, 19).replace("T", " "),
     text: req.body.text,
     tags: req.body.tags,
-    hidden:((typeof req.body.hidden)=='undefined')?0:1
+    hidden: typeof req.body.hidden == "undefined" ? 0 : 1,
   };
-   
-  
-  db.query(`UPDATE posts SET title = '${updatedPost.title}', \
+
+  db.query(
+    `UPDATE posts SET title = '${updatedPost.title}', \
     date = '${updatedPost.date}', text = '${updatedPost.text}',\
     hidden = '${updatedPost.hidden}', \
     tags = '${updatedPost.tags}' WHERE ${updatedPost.id}=id;`,
@@ -129,15 +124,16 @@ router.post("/api/blog/save", urlencodedParser, async (req, res) => {
         console.log(err);
         res.sendStatus(400);
       } else {
-        res.json({updatedPost});
+        res.json({ updatedPost });
       }
-    });
+    }
+  );
 });
 
 router.get("/api/blog/posts", async (req, res) => {
   let from = req.query.from || 0;
   let count = req.query.count || 5;
-  let tag=req.query.tag || '%';
+  let tag = req.query.tag || "%";
 
   db.query(
     `SELECT * FROM posts WHERE hidden=FALSE AND date>='1970-01-01' AND tags LIKE '%${tag}%' ORDER BY date DESC LIMIT ${count} OFFSET ${from}`,
