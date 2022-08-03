@@ -200,7 +200,7 @@ router.get("/gallery", async (req, res) => {
   fs.readdir(path.join(__dirname, "../static/img/gallery")).then((entries) => {
     entries.forEach((img) => {
       let name = path.parse(img).name;
-      let src = path.join("/img/gallery/", img);
+      let src = `/img/gallery/${encodeURIComponent(name)}.jpg`;
       images.push({ name, src });
     });
   });

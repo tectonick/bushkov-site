@@ -123,3 +123,6 @@ config/local.json
 
 #rsa keys
 sec/
+
+#rsa keys
+static/img/gallery/
