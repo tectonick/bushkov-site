@@ -1,0 +1,6 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tectonick_bushkov-site&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tectonick_bushkov-site)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=tectonick_bushkov-site&metric=bugs)](https://sonarcloud.io/summary/new_code?id=tectonick_bushkov-site)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=tectonick_bushkov-site&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=tectonick_bushkov-site)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=tectonick_bushkov-site&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=tectonick_bushkov-site)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=tectonick_bushkov-site&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=tectonick_bushkov-site)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=tectonick_bushkov-site&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=tectonick_bushkov-site)
