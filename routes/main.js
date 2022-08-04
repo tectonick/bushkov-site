@@ -141,9 +141,21 @@ router.get("/api/blog/posts", async (req, res) => {
       if (err) console.log(err);
       posts.forEach((post) => {
         post.tags = post.tags.split(", ");
+        post.friendlyDate = new Date(post.date).toUTCString();
         post.date = DateToISOLocal(post.date).replace("T", " ").slice(0, 16);
       });
       res.json(posts);
+    }
+  );
+});
+
+router.get("/api/blog/posts/count", async (req, res) => {
+  let tag = req.query.tag || "%";
+  db.query(
+    `SELECT COUNT(*) as total FROM posts WHERE hidden=FALSE AND date>='1970-01-01' AND tags LIKE '%${tag}%'`,
+    function (err, count) {
+      if (err) console.log(err);
+      res.json(count[0]);
     }
   );
 });

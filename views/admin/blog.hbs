@@ -3,39 +3,38 @@
         referrerpolicy="origin"></script>
 
     <div class="ml-auto my-3">
-            <input id='post-add' class='form-control' type="submit" value="Добавить пост" name="submit">
+        <input id='post-add' class='form-control' type="submit" value="Добавить пост" name="submit">
 
 
     </div>
     <div id='admin-blog'></div>
 
-        <a class="button-main text-center" href="#" id="next-posts">
-            {{__ 'bio.next'}}
-        </a>
+    <a class="form-control text-center mb-3" href="#" id="blog-next">
+        {{__ 'bio.next'}}
+    </a>
 
 </div>
 
 
 <!-- Modal -->
-    <div class="modal fade" id="deleteModal" name='' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Подтверждение удаления</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Вы действительно хотите удалить пост? Это действие невозможно отменить!</p>
+<div class="modal fade" id="deleteModal" name='' tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Вы действительно хотите удалить пост? Это действие невозможно отменить!</p>
 
-                </div>
-                <div class="modal-footer">
-                    <button id="modal-cancel" type="button" class="btn btn-secondary"
-                        data-dismiss="modal">Отмена</button>
-                    <button id="modal-delete" type="button" class="btn btn-danger">Удалить</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button id="modal-delete" type="button" class="btn btn-danger">Удалить</button>
             </div>
         </div>
     </div>
+</div>

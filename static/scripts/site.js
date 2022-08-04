@@ -75,7 +75,7 @@ function clearBlog() {
     element.remove();
   });
   loadPosts.loadedCount = 0;
-  loadPosts(blog, createPost, 4, 0);
+  loadPosts(blog, createPost, 5, 0);
 }
 
 function createPost(post) {
@@ -83,12 +83,23 @@ function createPost(post) {
   postDiv.classList.add("post");
   let postDate = document.createElement("em");
   postDate.classList.add("date");
-  postDate.innerText = post.date;
+  postDate.innerText = post.friendlyDate;
   let postTitle = document.createElement("h3");
   postTitle.innerText = post.title;
   let postText = document.createElement("div");
   postText.classList.add("post-text");
-  postText.innerHTML = post.text;
+  postText.innerHTML = post.text;  
+  let showMore = document.createElement("a");
+  if (post.text.length > 250) {
+    postText.classList.add("hidden-text");
+    showMore.classList.add("show-more");
+    showMore.innerText = "Show more";
+    showMore.onclick = () => {
+      postText.classList.toggle("hidden-text");
+      showMore.innerText == "Collapse" && postDiv.scrollIntoView({ behavior: "smooth", block: "end" });
+      showMore.innerText = showMore.innerText == "Collapse" ? "Show more" : "Collapse";
+    }
+  }
   let postTags = document.createElement("div");
   postTags.classList.add("tags");
   post.tags.forEach((tag) => {
@@ -105,6 +116,7 @@ function createPost(post) {
   postDiv.append(postTitle);
   postDiv.append(postDate);
   postDiv.append(postText);
+  postDiv.append(showMore);
   postDiv.append(postTags);
   return postDiv;
 }
@@ -224,7 +236,7 @@ function initTiny() {
   tinymce.init({
     selector: "textarea.editor",
     plugins:
-      "paste importcss searchreplace autolink save visualblocks visualchars image link media template table charmap hr pagebreak nonbreaking toc insertdatetime advlist lists imagetools textpattern noneditable charmap quickbars emoticons",
+      "paste importcss searchreplace autolink save visualblocks visualchars image link media charmap hr pagebreak nonbreaking toc insertdatetime advlist lists imagetools textpattern noneditable charmap quickbars emoticons",
     imagetools_cors_hosts: ["picsum.photos"],
     menubar: "edit view insert format tools table",
     toolbar:
@@ -273,40 +285,19 @@ function initTiny() {
         ed.targetElm.dispatchEvent(new Event("update"));
       });
     },
-    templates: [
-      {
-        title: "New Table",
-        description: "creates a new table",
-        content:
-          '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>',
-      },
-      {
-        title: "Starting my story",
-        description: "A cure for writers block",
-        content: "Once upon a time...",
-      },
-      {
-        title: "New list with dates",
-        description: "New List with dates",
-        content:
-          '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>',
-      },
-    ],
-    template_cdate_format: "[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]",
-    template_mdate_format: "[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]",
-    height: 600,
+    height: 400,
     image_caption: true,
     quickbars_selection_toolbar:
-      "bold italic | quicklink h2 h3 blockquote quickimage quicktable",
+      "bold italic | quicklink h2 h3 blockquote quickimage",
     noneditable_noneditable_class: "mceNonEditable",
     toolbar_mode: "sliding",
-    contextmenu: "link image imagetools table",
+    contextmenu: "link image imagetools",
     content_style:
       " body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
   });
 }
 
-function loadPosts(
+async function loadPosts(
   where,
   postConstructor,
   count,
@@ -316,6 +307,10 @@ function loadPosts(
     loadPosts.loadedCount = 0;
   }
   let tag = location.hash.replace("#", "");
+  if (loadPosts.loadedCount == 0) {
+    let response = await fetch(`/api/blog/posts/count?tag=${tag}`);
+    loadPosts.totalCount = (await response.json()).total;
+  }
   return fetch(
     `/api/blog/posts?from=${from}&count=${count}&tag=${tag}`
   )
@@ -326,6 +321,11 @@ function loadPosts(
         where.append(postDiv);
       });
       loadPosts.loadedCount += posts.length;
+      if (loadPosts.loadedCount == loadPosts.totalCount) {
+        document.getElementById("blog-next").style.display = "none";
+      } else {
+        document.getElementById("blog-next").style.display = "block";
+      }
     });
 }
 
@@ -336,11 +336,11 @@ function InitHook() {
   let adminBlog = document.getElementById("admin-blog");
 
   if (blog) {
-    loadPosts(blog, createPost, 4, 0);
+    loadPosts(blog, createPost, 5, 0);
     let nextPostsButton = document.getElementById("next-posts");
     nextPostsButton.addEventListener("click", (e) => {
       e.preventDefault();
-      loadPosts(blog, createPost, 4);
+      loadPosts(blog, createPost, 5);
     });
     document
       .getElementById("show-all-button")
@@ -362,13 +362,13 @@ function InitHook() {
       modal.modal("hide");
     });
 
-    loadPosts(adminBlog, createPostForm, 4, 0).then(() => {
+    loadPosts(adminBlog, createPostForm, 5, 0).then(() => {
       initTiny();
     });
-    let nextPostsButton = document.getElementById("next-posts");
+    let nextPostsButton = document.getElementById("blog-next");
     nextPostsButton.addEventListener("click", (e) => {
       e.preventDefault();
-      loadPosts(adminBlog, createPostForm, 4).then(() => {
+      loadPosts(adminBlog, createPostForm, 5).then(() => {
         initTiny();
       });
     });
