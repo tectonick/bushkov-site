@@ -88,7 +88,7 @@ function createPost(post) {
   postTitle.innerText = post.title;
   let postText = document.createElement("div");
   postText.classList.add("post-text");
-  postText.innerHTML = post.text;  
+  postText.innerHTML = post.text;
   let showMore = document.createElement("a");
   if (post.text.length > 250) {
     postText.classList.add("hidden-text");
@@ -96,9 +96,11 @@ function createPost(post) {
     showMore.innerText = "Show more";
     showMore.onclick = () => {
       postText.classList.toggle("hidden-text");
-      showMore.innerText == "Collapse" && postDiv.scrollIntoView({ behavior: "smooth", block: "end" });
-      showMore.innerText = showMore.innerText == "Collapse" ? "Show more" : "Collapse";
-    }
+      showMore.innerText == "Collapse" &&
+        postDiv.scrollIntoView({ behavior: "smooth", block: "end" });
+      showMore.innerText =
+        showMore.innerText == "Collapse" ? "Show more" : "Collapse";
+    };
   }
   let postTags = document.createElement("div");
   postTags.classList.add("tags");
@@ -170,7 +172,7 @@ function createPostForm(post) {
   postTags.classList.add("tags");
 
   let postSaveButton = document.createElement("input");
-  postSaveButton.classList.add("form-control");
+  postSaveButton.className = "form-control btn btn-light";
   postSaveButton.type = "submit";
   postSaveButton.value = "Сохранить";
   postSaveButton.name = "save";
@@ -190,7 +192,7 @@ function createPostForm(post) {
   });
 
   let postDeleteButton = document.createElement("input");
-  postDeleteButton.classList.add("form-control");
+  postDeleteButton.className = "form-control btn btn-light";
   postDeleteButton.type = "submit";
   postDeleteButton.value = "Удалить";
   postDeleteButton.name = "delete";
@@ -223,12 +225,10 @@ function createPostForm(post) {
   postMetaDiv.append(postDate);
 
   postForm.append(postText);
-
   postForm.append(postButtons);
   postForm.append(postSavedLabel);
 
   postDiv.append(postForm);
-
   return postDiv;
 }
 
@@ -311,9 +311,7 @@ async function loadPosts(
     let response = await fetch(`/api/blog/posts/count?tag=${tag}`);
     loadPosts.totalCount = (await response.json()).total;
   }
-  return fetch(
-    `/api/blog/posts?from=${from}&count=${count}&tag=${tag}`
-  )
+  return fetch(`/api/blog/posts?from=${from}&count=${count}&tag=${tag}`)
     .then((response) => response.json())
     .then((posts) => {
       Array.from(posts).forEach((post) => {
@@ -386,7 +384,7 @@ function InitHook() {
   }
   window.scrollTo(0, 0);
   $(".delete-img-button").click(function () {
-    $(this).parent().parent().css("display", "none");
+    $(this).parent().css("display", "none");
     $.post("/admin/gallery/delete", { filename: $(this).attr("id") });
   });
   $("#files").change(EnableUpload);
@@ -412,9 +410,15 @@ function InitHook() {
     modal.modal();
   });
 
-
-
   $(".fileToUpload").change(EnableUpload);
+
+  $("#files").change(() => {
+    document.getElementById(
+      "upload-button"
+    ).innerHTML = `<object class='three-dots-loader' type='image/svg+xml' data="/img/three-dots.svg"></object>`;
+    document.forms["file-gallery-form"].submit();
+    document.getElementById("files").disabled = true;
+  });
 
   $(".save-button").click(function (ev) {
     let target = ev.target;
@@ -436,4 +440,3 @@ function InitHook() {
     });
   });
 }
-

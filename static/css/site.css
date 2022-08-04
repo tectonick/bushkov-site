@@ -528,3 +528,8 @@ pre {
 .title h1 {
   float: left;
 }
+
+.card-header {
+  color: #030303;
+  padding: 5px;
+}

@@ -1,23 +1,23 @@
 <div data-barba-prevent="all" class="container-fluid">
 
     <div class="ml-auto my-3" >
-        <form action="/admin/gallery/upload" method="post" enctype="multipart/form-data">
-            <input class='form-control' type="file" name="files" id="files" multiple>
-            <input disabled="true" class='form-control' type="submit" value="Загрузить изображение" name="submit">
+        <form id="file-gallery-form" class="form-group" action="/admin/gallery/upload" method="post" enctype="multipart/form-data">
+            <input class='form-control d-none' type="file" name="files" id="files" multiple>
+            {{!-- <input disabled="true" class='form-control' type="submit" value="Загрузить изображение" name="submit"> --}}
+            <label id="upload-button" class="form-control btn btn-light text-center" for="files">Загрузить изображения</label>
         </form>
-
     </div> 
 
 
     <div>
         <div class="card-columns">
             {{#each images}}
-            <div class="card searchable"> <img class="card-img-top" loading=lazy src='{{this.src}}' alt="Card image cap">
-                <div class="card-footer">
-                    <p>{{this.name}}</p>                 
-                    <input data-barba-prevent="self" id='{{this.name}}' class='delete-img-button form-control' type="submit" value="Удалить"></input>
-                    
+            <div class="card searchable"> 
+                <div class="card-header">
+                    {{this.name}}
                 </div>
+                <img class="card-img-top" loading=lazy src='{{this.src}}' alt="Card image cap">
+                <input data-barba-prevent="self" id='{{this.name}}' class='delete-img-button btn btn-light form-control' type="submit" value="Удалить"></input>
             </div>
             {{/each}}
         </div>
