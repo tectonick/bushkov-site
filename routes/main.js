@@ -141,7 +141,7 @@ router.get("/api/blog/posts", async (req, res) => {
       if (err) console.log(err);
       posts.forEach((post) => {
         post.tags = post.tags.split(", ");
-        post.friendlyDate = new Date(post.date).toUTCString();
+        post.friendlyDate = new Date(post.date).toUTCString().replace(":00 GMT", "");
         post.date = DateToISOLocal(post.date).replace("T", " ").slice(0, 16);
       });
       res.json(posts);
