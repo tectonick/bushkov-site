@@ -24,9 +24,13 @@ barba.init({
   views: [{
     namespace: 'gallery',
     afterEnter() {
-      (function() {
-        var $gallery = new SimpleLightbox('.gallery a', {});
-    })();
+        new SimpleLightbox('.gallery a', {});
+    }
+  },
+  {
+    namespace: 'blog',
+    beforeEnter() {
+      loadPosts.loadedCount = 0;
     }
   }],
   transitions: [
