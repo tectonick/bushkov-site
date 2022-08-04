@@ -21,6 +21,14 @@ const activeClass = "active";
 barba.init({
   debug: true,
   logLevel: "debug",
+  views: [{
+    namespace: 'gallery',
+    afterEnter() {
+      (function() {
+        var $gallery = new SimpleLightbox('.gallery a', {});
+    })();
+    }
+  }],
   transitions: [
     {
       name: "opacity-transition",

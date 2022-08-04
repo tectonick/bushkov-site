@@ -133,10 +133,19 @@ a:hover {
   font-size: 3em;
 }
 
+.buttons{
+  font-size: 1.2em;
+}
+
 .index-block .buttons {
   display: flex;
   font-size: 1.3em;
+}
 
+.buttons-bottom a{
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .button-main:hover {
@@ -147,7 +156,7 @@ a:hover {
 .button-main {
   transition: background-color 0.3s;
   cursor: pointer;
-  padding: 10px 25px;
+  padding: 10px 4vw;
   border-radius: 5px;
   border: 1px solid rgba(255,255,255,0.2);
   color: white;
