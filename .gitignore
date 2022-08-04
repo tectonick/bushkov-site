@@ -124,5 +124,6 @@ config/local.json
 #rsa keys
 sec/
 
-#rsa keys
+#gallery images
 static/img/gallery/
+static/img/thumbnails/gallery
