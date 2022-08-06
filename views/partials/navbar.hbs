@@ -1,27 +1,18 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
-
   <a class="navbar-brand" href="/">Evgeny Bushkov</a>
-
-
-
   <button class="navbar-toggler navbar-toggler-right mr-3" type="button" data-toggle="collapse"
     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
     aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-
-
   <div class="collapse navbar-collapse nav-items" id="navbarSupportedContent">
-
-
-
     <ul class="navbar-nav ml-auto">
-{{#if signedIn}}
+      {{#if signedIn}}
       <li>
         <span class='dropdown float-left '>
-          <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href id="adminDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             Управление сайтом
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-lang animate slideIn"
@@ -29,39 +20,44 @@
             <a class='dropdown-item' data-barba-prevent="self" href="/admin/blog">Блог</a>
             {{!-- <a class='dropdown-item' href="/admin/concerts">Концерты</a> --}}
             <a class='dropdown-item' href="/admin/gallery">Галерея</a>
-            <a class='dropdown-item' data-barba-prevent="self"  href="/admin/text">Текст</a>
+            <a class='dropdown-item' data-barba-prevent="self" href="/admin/text">Текст</a>
             <a class='dropdown-item' data-barba-prevent="self" href="/logout">Выход</a>
           </div>
         </span>
       </li>
-{{/if}}
-
-
-
+      {{/if}}
 
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/violinist" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.violinist'}}</a>
+        <a class="nav-link" href="/violinist" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.violinist'}}</a>
       </li>
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/conductor" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.conductor'}}</a>
+        <a class="nav-link" href="/conductor" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.conductor'}}</a>
       </li>
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/teacher" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.teacher'}}</a>
+        <a class="nav-link" href="/teacher" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.teacher'}}</a>
       </li>
       {{!-- <li class="nav-item menu-item">
-        <a class="nav-link" href="/concerts" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.concerts'}}</a>
+        <a class="nav-link" href="/concerts" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.concerts'}}</a>
       </li> --}}
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/gallery" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.gallery'}}</a>
+        <a class="nav-link" href="/gallery" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.gallery'}}</a>
       </li>
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/video" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.video'}}</a>
+        <a class="nav-link" href="/video" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.video'}}</a>
       </li>
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/blog" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.blog'}}</a>
+        <a class="nav-link" href="/blog" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.blog'}}</a>
       </li>
       <li class="nav-item menu-item">
-        <a class="nav-link" href="/contacts" data-toggle="collapse" data-target=".navbar-collapse.show">{{__ 'layout.navbar.contacts'}}</a>
+        <a class="nav-link" href="/contacts" data-toggle="collapse" data-target=".navbar-collapse.show">{{__
+          'layout.navbar.contacts'}}</a>
       </li>
 
       <li>
@@ -72,17 +68,11 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-lang animate slideIn"
             aria-labelledby="langDropdown">
-            <a class='dropdown-item locale-change' href="#" id='ru'>Русский</a>
-            <a class='dropdown-item locale-change' href="#" id='en'>English</a>
+            <a class='dropdown-item locale-change' href id='ru'>Русский</a>
+            <a class='dropdown-item locale-change' href id='en'>English</a>
           </div>
         </span>
       </li>
-
-
-
     </ul>
-
-
-
   </div>
 </nav>
