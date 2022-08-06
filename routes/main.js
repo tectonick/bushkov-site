@@ -50,8 +50,10 @@ router.get("/gallery", async (req, res) => {
   let entries = await fs.readdir(path.join(__dirname, "../static/img/gallery"));
   entries.forEach((img) => {
     let name = path.parse(img).name;
-    let src = `/img/gallery/${encodeURIComponent(name)}.jpg`;
-    images.push({ name, src });
+    let encodedName=encodeURIComponent(name);
+    let src = `/img/gallery/${encodedName}.jpg`;
+    let thumbnailSrc = `/img/thumbnails/gallery/${encodedName}.jpg`;
+    images.push({ name, src, thumbnailSrc });
   });
 
   res.render("gallery.hbs", { title, images, signedIn: req.signedIn });
