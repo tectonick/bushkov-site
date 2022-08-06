@@ -1,3 +1,5 @@
+const activeClass = "active";
+
 function EnableUpload() {
   if ($(this).val().length > 0) {
     $(this).siblings(".form-control").prop("disabled", false);
@@ -17,10 +19,7 @@ let ReadyEvent = new Event("Ready", {
   cancelable: true,
 });
 
-const activeClass = "active";
 barba.init({
-  debug: true,
-  logLevel: "debug",
   views: [{
     namespace: 'gallery',
     afterEnter() {
@@ -68,7 +67,6 @@ barba.init({
 
 barba.hooks.afterLeave((data) => {
   // Update the active menu item classes
-  console.log("afterLeave");
   if (data.next.url.path) {
     $(".menu-item." + activeClass).each(function () {
       $(this).removeClass(activeClass);
@@ -340,10 +338,12 @@ async function loadPosts(
 }
 
 function InitHook() {
+  window.scrollTo(0, 0);
   let video = document.getElementById("video1");
   let player = document.getElementById("YourPlayerID");
   let blog = document.getElementById("blog");
   let adminBlog = document.getElementById("admin-blog");
+  let admin = document.getElementById("adminDropdown");
 
   if (blog) {
     loadPosts(blog, createPost, 5, 0);
@@ -393,17 +393,6 @@ function InitHook() {
 
   if (player) {
     window.document.dispatchEvent(ReadyEvent);
-  }
-  window.scrollTo(0, 0);
-  $(".delete-img-button").click(function () {
-    $(this).parent().css("display", "none");
-    $.post("/admin/gallery/delete", { filename: $(this).attr("id") });
-  });
-  $("#files").change(EnableUpload);
-  if (video) {
-    video.play();
-  }
-  if (document.getElementById("YourPlayerID")) {
     new YTV("YourPlayerID", {
       playlist: "PLyI9VmhxB4FwTBwiLgyRK0eNTe5tKEQoI",
       responsive: true,
@@ -412,43 +401,52 @@ function InitHook() {
       seeMore: "Youtube",
     });
   }
-  if (document.querySelector(".tz-gallery")) {
-    baguetteBox.run(".tz-gallery");
+
+  if (video) {
+    video.play();
   }
 
-  $(".delete-button").click(function () {
-    let modal = $("#deleteModal");
-    modal.attr("name", $(this).attr("name"));
-    modal.modal();
-  });
-
-  $(".fileToUpload").change(EnableUpload);
-
-  $("#files").change(() => {
-    document.getElementById(
-      "upload-button"
-    ).innerHTML = `<object class='three-dots-loader' type='image/svg+xml' data="/img/three-dots.svg"></object>`;
-    document.forms["file-gallery-form"].submit();
-    document.getElementById("files").disabled = true;
-  });
-
-  $(".save-button").click(function (ev) {
-    let target = ev.target;
-    target.setAttribute("disabled", "disabled");
-    let formName = $(this).attr("name");
-    let formData = $("#" + formName).serialize();
-    $.post("/admin/concerts/edit", formData, () => {
-      target.removeAttribute("disabled");
-      let oldColor = $(this).css("backgroundColor");
-      $(this).animate({ backgroundColor: "#32CD32" }, 1000, function () {
-        $(this).animate({ backgroundColor: oldColor });
-      });
-    }).fail(() => {
-      target.removeAttribute("disabled");
-      let oldColor = $(this).css("backgroundColor");
-      $(this).animate({ backgroundColor: "#8B0000" }, 1000, function () {
-        $(this).animate({ backgroundColor: oldColor });
+  if (admin) {
+    $(".delete-img-button").click(function () {
+      $(this).parent().css("display", "none");
+      $.post("/admin/gallery/delete", { filename: $(this).attr("id") });
+    });
+    $("#files").change(EnableUpload);
+  
+    $(".delete-button").click(function () {
+      let modal = $("#deleteModal");
+      modal.attr("name", $(this).attr("name"));
+      modal.modal();
+    });
+  
+    $(".fileToUpload").change(EnableUpload);
+  
+    $("#files").change(() => {
+      document.getElementById(
+        "upload-button"
+      ).innerHTML = `<object class='three-dots-loader' type='image/svg+xml' data="/img/three-dots.svg"></object>`;
+      document.forms["file-gallery-form"].submit();
+      document.getElementById("files").disabled = true;
+    });
+  
+    $(".save-button").click(function (ev) {
+      let target = ev.target;
+      target.setAttribute("disabled", "disabled");
+      let formName = $(this).attr("name");
+      let formData = $("#" + formName).serialize();
+      $.post("/admin/concerts/edit", formData, () => {
+        target.removeAttribute("disabled");
+        let oldColor = $(this).css("backgroundColor");
+        $(this).animate({ backgroundColor: "#32CD32" }, 1000, function () {
+          $(this).animate({ backgroundColor: oldColor });
+        });
+      }).fail(() => {
+        target.removeAttribute("disabled");
+        let oldColor = $(this).css("backgroundColor");
+        $(this).animate({ backgroundColor: "#8B0000" }, 1000, function () {
+          $(this).animate({ backgroundColor: oldColor });
+        });
       });
     });
-  });
+  }
 }

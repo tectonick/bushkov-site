@@ -4,6 +4,7 @@
   font-family: 'Gabriola';
   src: url('/fonts/Gabriola.woff2') format('woff2'),
     url('/fonts/Gabriola.woff') format('woff');
+  font-display: swap;
 }
 
 ::-webkit-scrollbar {

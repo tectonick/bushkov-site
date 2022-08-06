@@ -20,12 +20,12 @@
 {{#if signedIn}}
       <li>
         <span class='dropdown float-left '>
-          <a class="nav-link dropdown-toggle locale-change" href="#" id="navbarDropdown" role="button"
+          <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Управление сайтом
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-lang animate slideIn"
-            aria-labelledby="navbarDropdown">
+            aria-labelledby="adminDropdown">
             <a class='dropdown-item' data-barba-prevent="self" href="/admin/blog">Блог</a>
             {{!-- <a class='dropdown-item' href="/admin/concerts">Концерты</a> --}}
             <a class='dropdown-item' href="/admin/gallery">Галерея</a>
@@ -66,14 +66,14 @@
 
       <li>
         <span class='dropdown float-left '>
-          <a class="nav-link dropdown-toggle locale-change" href="#" id="navbarDropdown" role="button"
+          <a class="nav-link dropdown-toggle locale-change" href="#" id="langDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{__ 'layout.navbar.language'}}
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-lang animate slideIn"
-            aria-labelledby="navbarDropdown">
-            <a class='dropdown-item locale-change' href="" id='ru'>Русский</a>
-            <a class='dropdown-item locale-change' href="" id='en'>English</a>
+            aria-labelledby="langDropdown">
+            <a class='dropdown-item locale-change' href="#" id='ru'>Русский</a>
+            <a class='dropdown-item locale-change' href="#" id='en'>English</a>
           </div>
         </span>
       </li>
