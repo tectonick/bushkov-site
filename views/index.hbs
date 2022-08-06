@@ -1,18 +1,10 @@
 <div id="index-wrapper" class="wrapper">
-
-    {{!-- <img id="index-image"  class="main-img" srcset="img/index-image/index-image.jpg 1920w,
-             img/index-image/index-image@0,75x.jpg 1440w, img/index-image/index-image@0,5x.jpg 960w,
-             img/index-image/index-image@0,25x.jpg 480w" src="index-image.jpg" alt="Main orchestra photo"> --}}
-
-
-
   <video id="video1" class="main-img" width="1420" preload="auto" muted autoplay loop>
-    <source src="/video/video8.mp4" type="video/mp4">
-    Your browser does not support HTML video.
+    <source src="/video/video8.webm" type="video/webm">
+    <img id="index-image"  class="main-img" srcset="img/index-image/index-image.jpg 1920w,
+             img/index-image/index-image@0,75x.jpg 1440w, img/index-image/index-image@0,5x.jpg 960w,
+             img/index-image/index-image@0,25x.jpg 480w" src="index-image.jpg" alt="Main photo">
   </video>
-
-
-
     <div class="index-block mb-5">
         <h1>
             {{__ 'index.name'}}</h1>
@@ -27,8 +19,5 @@
             {{__ 'index.contacts'}}
             </a>
         </div>
-
     </div>
-
-
 </div>
