@@ -27,6 +27,7 @@ body {
   background-color: #030303;
   color: white;
   font-family: 'Gabriola', Times, serif;
+  position: relative;
 }
 
 main {
@@ -489,4 +490,15 @@ pre {
 .card-header {
   color: #030303;
   padding: 5px;
+}
+
+.me {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  opacity: 0.3;
+}
+
+.me:hover {
+  opacity: 0.5;
 }
