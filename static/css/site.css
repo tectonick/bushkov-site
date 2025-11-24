@@ -35,7 +35,7 @@ main {
 }
 
 nav {
-  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.70) 60%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.70) 60%, rgba(0, 0, 0, 0) 100%);
 }
 
 .navbar-brand {
@@ -56,10 +56,10 @@ nav {
 
 .dropdown-menu {
   min-width: 1em;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.dropdown-menu a{
+.dropdown-menu a {
   color: white;
 }
 
@@ -123,6 +123,14 @@ a:hover {
   margin: 10% 3%;
 }
 
+.contacts-link {
+  color: white;
+}
+
+.contacts-link:hover {
+  color: #cccccc;
+}
+
 .index-block {
   width: 42%;
   margin: 4% 4%;
@@ -135,7 +143,7 @@ a:hover {
   font-size: 3em;
 }
 
-.buttons{
+.buttons {
   font-size: 1.2em;
 }
 
@@ -144,7 +152,7 @@ a:hover {
   font-size: 1.3em;
 }
 
-.buttons-bottom a{
+.buttons-bottom a {
   display: block;
   width: 100%;
   text-align: center;
@@ -160,7 +168,7 @@ a:hover {
   cursor: pointer;
   padding: 10px 4vw;
   border-radius: 5px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
 }
 
@@ -180,7 +188,7 @@ a:hover {
   width: 100%;
   transition: transform 0.3s;
   border-radius: 5px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
 }
 
@@ -206,7 +214,7 @@ a:hover {
   background-color: rgba(255, 255, 255, 0.1);
   margin: 10px;
   border-radius: 5px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   position: relative;
   width: 18%;
@@ -252,7 +260,7 @@ a:hover {
 
 .event-row .concert {
   border-radius: 5px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 pre {
@@ -393,7 +401,7 @@ pre {
   margin-bottom: 50px;
 }
 
-#admin-blog + #blog-next {
+#admin-blog+#blog-next {
   width: 100%;
   margin: 0;
 }
@@ -407,8 +415,8 @@ pre {
 #blog .post h3 {
   background-color: rgba(255, 255, 255, 0.05);
   padding-left: 10px;
-  padding-top: 6px;  
-  padding-bottom: 2px;  
+  padding-top: 6px;
+  padding-bottom: 2px;
   padding-right: 40%;
 }
 

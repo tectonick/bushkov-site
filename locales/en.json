@@ -1,6 +1,6 @@
 {
 	"title": "Evgeny Bushkov",
-	"description":"Outstanding Russian violinist and conductor, chief conductor of the State Chamber Orchestra of the Republic of Belarus, Honored Artist of the Russian Federation",
+	"description": "Outstanding Russian violinist and conductor, chief conductor of the State Chamber Orchestra of the Republic of Belarus, Honored Artist of the Russian Federation",
 	"layout.navbar.violinist": "Violinist",
 	"layout.navbar.conductor": "Conductor",
 	"layout.navbar.teacher": "Music teacher",
@@ -22,7 +22,7 @@
 	"violinist.title": "Violinist",
 	"teacher.title": "Teacher",
 	"contacts.title": "Contacts",
-	"contacts.text": "If you have some interesting artistic or other proposals, you can always contact me in the ways below",
+	"contacts.text": "If you have some interesting artistic or other proposals, you can always contact me in the ways below:",
 	"contacts.phone": "Phone",
 	"contacts.mail": "Mail",
 	"contacts.facebook": "Facebook",
