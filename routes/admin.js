@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
 const db = require("../db");
+const { localesDir } = require("../services/locales");
 const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({
   extended: false,
@@ -80,13 +81,13 @@ router.get("/", function (_req, res) {
 router.get("/text", async function (req, res) {
   let text = {};
   text.violinist = await fs.readFile(
-    path.join(__dirname, "..", "locales/html", req.locale, "violinist.html")
+    path.join(localesDir, "html", req.locale, "violinist.html")
   );
   text.conductor = await fs.readFile(
-    path.join(__dirname, "..", "locales/html", req.locale, "conductor.html")
+    path.join(localesDir, "html", req.locale, "conductor.html")
   );
   text.teacher = await fs.readFile(
-    path.join(__dirname, "..", "locales/html", req.locale, "teacher.html")
+    path.join(localesDir, "html", req.locale, "teacher.html")
   );
   res.render("admin/text", { text, signedIn: req.signedIn });
 });
@@ -97,15 +98,15 @@ router.get("/blog", async function (req, res) {
 
 router.post("/text", urlencodedParser, async function (req, res) {
   await fs.writeFile(
-    path.join(__dirname, "..", "locales/html", req.locale, "violinist.html"),
+    path.join(localesDir, "html", req.locale, "violinist.html"),
     req.body.violinist_text
   );
   await fs.writeFile(
-    path.join(__dirname, "..", "locales/html", req.locale, "conductor.html"),
+    path.join(localesDir, "html", req.locale, "conductor.html"),
     req.body.conductor_text
   );
   await fs.writeFile(
-    path.join(__dirname, "..", "locales/html", req.locale, "teacher.html"),
+    path.join(localesDir, "html", req.locale, "teacher.html"),
     req.body.teacher_text
   );
   res.redirect("text");
@@ -186,7 +187,7 @@ router.get("/gallery", async (req, res) => {
   let entries = await fs.readdir(path.join(__dirname, "../static/img/gallery"));
   entries.forEach((img) => {
     let name = path.parse(img).name;
-    let encodedName=encodeURIComponent(name);
+    let encodedName = encodeURIComponent(name);
     let src = `/img/gallery/${encodedName}.jpg`;
     let thumbnailSrc = `/img/thumbnails/gallery/${encodedName}.jpg`;
     images.push({ name, src, thumbnailSrc });

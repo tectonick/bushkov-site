@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs").promises;
 const path = require("path");
 const db = require("../db");
+const { localesDir } = require("../services/locales");
 const bodyParser = require("body-parser");
 const urlencodedParser = bodyParser.urlencoded({
   extended: false,
@@ -16,9 +17,7 @@ function DateToISOLocal(date) {
 }
 
 async function getLocalizedHtml(localeName, filename) {
-  return fs.readFile(
-    path.join(__dirname, "..", `/locales/html/${localeName}/${filename}`)
-  );
+  return fs.readFile(path.join(localesDir, "html", localeName, filename));
 }
 
 router.get("/", (req, res) => {
@@ -50,7 +49,7 @@ router.get("/gallery", async (req, res) => {
   let entries = await fs.readdir(path.join(__dirname, "../static/img/gallery"));
   entries.forEach((img) => {
     let name = path.parse(img).name;
-    let encodedName=encodeURIComponent(name);
+    let encodedName = encodeURIComponent(name);
     let src = `/img/gallery/${encodedName}.jpg`;
     let thumbnailSrc = `/img/thumbnails/gallery/${encodedName}.jpg`;
     images.push({ name, src, thumbnailSrc });
@@ -143,7 +142,9 @@ router.get("/api/blog/posts", async (req, res) => {
       if (err) console.log(err);
       posts.forEach((post) => {
         post.tags = post.tags.split(", ");
-        post.friendlyDate = new Date(post.date).toUTCString().replace(":00 GMT", "");
+        post.friendlyDate = new Date(post.date)
+          .toUTCString()
+          .replace(":00 GMT", "");
         post.date = DateToISOLocal(post.date).replace("T", " ").slice(0, 16);
       });
       res.json(posts);

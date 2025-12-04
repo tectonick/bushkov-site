@@ -127,3 +127,6 @@ sec/
 #gallery images
 static/img/gallery/
 static/img/thumbnails/gallery
+
+#locales local
+locales-local/
